@@ -70,6 +70,8 @@ shiny_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tru
   if (!is.null(du)){
     d <- data.frame(mapply(`*`, d, du[colnames(d),'unit_factor'], SIMPLIFY = FALSE))
   }
+  #add weibull coefficient
+  d$kappat <- kappat
   #return
   return(d)
 }

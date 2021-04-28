@@ -143,6 +143,62 @@ ui <- navbarPage(
     ),
   ),
 
+  ## ROOT ORIENTATIONS
+  tabPanel(
+    "Root orientations",
+    fluidRow(
+      column(
+        6,
+        wellPanel(
+          #header
+          h3("General orientation settings"),
+          #number of root orientation dimensions
+          radioButtons(
+            "ndimension",
+            'Root orientation dimensions \\(n_{dim}\\) [-]',
+            choices = list(
+              "1-D" = 1,
+              "2-D" = 2,
+              "3-D" = 3
+            ),
+            selected = 3
+          ),
+          #requested approximate number of root orientations
+          sliderInput(
+            "norientation",
+            paste('Requested number of discrete root orientations \\(n_{ori}\\) [-]', sep=''),
+            value = dp['norientation','value_default'],
+            min = dp['norientation','value_min'],
+            max = dp['norientation','value_max']
+          )
+        )
+      ),
+      column(
+        6,
+        wellPanel(
+          #header
+          h3("Root angle settings"),
+          #max root elevation
+          uiOutput("ui_beta0max"),
+          #centre axis offset - azimuth
+          uiOutput("ui_alphaoffset"),
+          #centre axis offset - elevation
+          uiOutput("ui_betaoffset")
+        )
+      )
+    ),
+    br(),
+    fluidRow(
+      #plot root orienations - polar plot
+      plotly::plotlyOutput("p_rootorientations2D")
+    ),
+    br(),
+    fluidRow(
+      #plot root orienations - 3D plot
+      plotly::plotlyOutput("p_rootorientations3D")
+    ),
+  ),
+
   ## ROOT PROPERTIES
   tabPanel(
     "Root properties",
@@ -244,11 +300,7 @@ ui <- navbarPage(
           #soil cohesion
           uiOutput("ui_c"),
           #soil angle of internal friction
-          numericInput(
-            "phi",
-            paste("Soil angle of internal friction \\(\\phi'\\) [deg]", sep=''),
-            value=din['phi','Default']
-          )
+          uiOutput("ui_phi"),
         ),
         wellPanel(
           #header
@@ -288,7 +340,7 @@ ui <- navbarPage(
       column(
         6,
         #plot Mohr-Coulomb failure criterion
-        plotlyOutput("p_soilyieldcriterion")
+        plotly::plotlyOutput("p_soilyieldcriterion")
       ),
       column(
         6,

@@ -9,20 +9,20 @@
 #' angle `betaoffset`.
 #'
 #' @param do a dataframe with orienations. Should contain fields for the
-#'   azimuth (`alpha`) and the elevation (`beta`).
+#'   azimuth (`alpha0`) and the elevation (`beta0`).
 #' @param alphaoffset The azimuth rotation required to obtain the intial coordinate
 #'   system in terms of the coordinate system to be transformed to
 #' @param betaoffset The elevation rotation required to obtain the intial coordinate
 #'   system in terms of the coordinate system to be transformed to
 #' @return a dataframe witht the same fields as input `do`, but with updated
-#'   values for the azimuth (`alpha`) and elevation angle (`beta`)
+#'   values for the azimuth (`alpha0`) and elevation angle (`beta0`)
 #' @examples
 #' do <- data.frame(
-#'   alpha = c(-1, 0, 1, 1),
-#'   beta = c(1, 1, 1.5, 1.2),
+#'   alpha0 = c(-1, 0, 1, 1),
+#'   beta0 = c(1, 1, 1.5, 1.2),
 #'   weight = c(0.25, 0.25, 0.25, 0.25)
 #' )
-#' transform_orientations(do, alphaoffset = 0.1, betaoffset = 0.1)
+#' polar2polar(do, alphaoffset = 0.1, betaoffset = 0.1)
 #' @export
 
 ## FUNCTIONS for find orientations of roots in shear plane coordinate system
@@ -41,20 +41,20 @@ polar2polar <- function(do, alphaoffset = 0, betaoffset = 0){
 
   #calculate coordinate transformation:
   ux <- with(do,
-             cos(alphaoffset)*cos(alpha)*cos(betaoffset)*sin(beta) -
-               sin(alphaoffset)*sin(alpha)*sin(beta) +
-               cos(alphaoffset)*cos(beta)*sin(betaoffset))
+             cos(alphaoffset)*cos(alpha0)*cos(betaoffset)*sin(beta0) -
+               sin(alphaoffset)*sin(alpha0)*sin(beta0) +
+               cos(alphaoffset)*cos(beta0)*sin(betaoffset))
   uy <- with(do,
-             cos(alphaoffset)*sin(alpha)*sin(beta) +
-               cos(beta)*sin(alphaoffset)*sin(betaoffset) +
-               cos(alpha)*cos(betaoffset)*sin(alphaoffset)*sin(beta))
+             cos(alphaoffset)*sin(alpha0)*sin(beta0) +
+               cos(beta0)*sin(alphaoffset)*sin(betaoffset) +
+               cos(alpha0)*cos(betaoffset)*sin(alphaoffset)*sin(beta0))
   uz <- with(do,
-             cos(betaoffset)*cos(beta) -
-               cos(alpha)*sin(betaoffset)*sin(beta))
+             cos(betaoffset)*cos(beta0) -
+               cos(alpha0)*sin(betaoffset)*sin(beta0))
   #calculate elevation angles (in range [0 <= beta <= pi])
-  do$beta <- acos(uz)
+  do$beta0 <- acos(uz)
   #calculate azimuth angles (in range [-pi <= alphaoffset < pi])
-  do$alpha <- atan2(uy, ux)
+  do$alpha0 <- atan2(uy, ux)
   #return
   return(do)
 }

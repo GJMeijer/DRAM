@@ -31,6 +31,41 @@ server <- function(input, output) {
     )
   })
 
+  ## Create UI objects for input that is not dimensionless - Root orientations
+  #elevation offset
+  output$ui_beta0max <- renderUI({
+    sliderInput(
+      "beta0max",
+      withMathJax(paste('Maximum root elevation angle \\(\\beta_{0,max}\\) [', du()['beta0max','unit_user'], ']', sep='')),
+      value = round(du()['beta0max','value_default']/du()['beta0max','unit_factor'],4),
+      min = round(du()['beta0max','value_min']/du()['beta0max','unit_factor'],4),
+      max = round(du()['beta0max','value_max']/du()['beta0max','unit_factor'],4),
+      step = round(du()['beta0max','value_step']/du()['beta0max','unit_factor'],4)
+    )
+  })
+  #centre axis offset - azimuth
+  output$ui_alphaoffset <- renderUI({
+    sliderInput(
+      "alphaoffset",
+      withMathJax(paste('Azimuth offset \\(\\alpha_{offset}\\) [', du()['alphaoffset','unit_user'], ']', sep='')),
+      value = round(du()['alphaoffset','value_default']/du()['alphaoffset','unit_factor'],4),
+      min = round(du()['alphaoffset','value_min']/du()['alphaoffset','unit_factor'],4),
+      max = round(du()['alphaoffset','value_max']/du()['alphaoffset','unit_factor'],4),
+      step = round(du()['alphaoffset','value_step']/du()['alphaoffset','unit_factor'],4)
+    )
+  })
+  #centre axis offset - elevation
+  output$ui_betaoffset <- renderUI({
+    sliderInput(
+      "betaoffset",
+      withMathJax(paste('Elevation offset \\(\\beta_{offset}\\) [', du()['betaoffset','unit_user'], ']', sep='')),
+      value = round(du()['betaoffset','value_default']/du()['betaoffset','unit_factor'],4),
+      min = round(du()['betaoffset','value_min']/du()['betaoffset','unit_factor'],4),
+      max = round(du()['betaoffset','value_max']/du()['betaoffset','unit_factor'],4),
+      step = round(du()['betaoffset','value_step']/du()['betaoffset','unit_factor'],4)
+    )
+  })
+
   ## Create UI objects for input that is not dimensionless - Root properties
   #Root tensile strength <tru0>
   output$ui_tru0 <- renderUI({
@@ -92,7 +127,7 @@ server <- function(input, output) {
   output$ui_c <- renderUI({
     numericInput(
       "c",
-      withMathJax(paste('Soil cohesion \\(c\\) [', du()['c','unit_user'] ,']', sep='')),
+      withMathJax(paste("Soil cohesion \\(c'\\) [", du()['c','unit_user'] ,']', sep='')),
       value = du()['c','value_default']/du()['c','unit_factor']
     )
   })
@@ -104,6 +139,15 @@ server <- function(input, output) {
       value = du()['sign','value_default']/du()['sign','unit_factor']
     )
   })
+  #soil angle of internal friction
+  output$ui_phi <- renderUI({
+    numericInput(
+      "phi",
+      withMathJax(paste("Soil angle of internal friction \\(\\phi'\\) [", du()['phi','unit_user'], "]", sep='')),
+      value = round(du()['phi','value_default']/du()['phi','unit_factor'],2)
+    )
+  })
+
   #initial shear zone thickness
   output$ui_h0 <- renderUI({
     numericInput(
@@ -140,7 +184,20 @@ server <- function(input, output) {
   ## Create unit system and default/min/max/step settings required for UI input widgets
   #load from external file
   du <- reactive({
-    shiny_unitsystem(dp, input$lengthunit_radio, input$rootstressunit_radio, input$rootstressunit_radio, 1, 1)
+    shiny_unitsystem(dp, input$lengthunit_radio, input$rootstressunit_radio, input$soilstressunit_radio, 1, 1)
+  })
+
+  ## GENERATE ROOT ORIENTATIONS
+  do <- reactive({
+    orientations_initial(
+      input$ndimension,
+      input$norientation,
+      input$phirt * du()['phirt','unit_factor'],
+      input$beta0max * du()['beta0max','unit_factor'],
+      input$alphaoffset * du()['alphaoffset','unit_factor'],
+      input$betaoffset * du()['betaoffset','unit_factor'],
+      input_volume = FALSE
+    )
   })
 
   ## GENERATE ROOT PROPERTIES
@@ -166,6 +223,51 @@ server <- function(input, output) {
     )
   })
 
+  ## GENERATE SOIL PROPERTIES
+  ds <- reactive({
+    #validate input
+    validate(
+      need(input$c>=0, "Soil cohesion must be equal or larger than 0"),
+      need(input$phi>=0, "Soil friction angle must be equal or larger than 0"),
+      need(input$sign>=0, "Normal soil stress in shear zone must be equal or larger than 0")
+    )
+    #create soil properties
+    data.frame(
+      c = input$c * du()['c','unit_factor'],
+      phi = input$phi * du()['phi','unit_factor'],
+      sign = input$sign * du()['sign','unit_factor']
+    )
+  })
+
+  ## GENERATE ROOT ORIENTATION PLOTS
+  #generate plot grid
+  dgrid <- reactive({
+
+  })
+  #polar plot root orientations
+  output$p_rootorientations2D <- plotly::renderPlotly({
+    plotly_orientations_2D(
+      do(),
+      input$ndimension,
+      input$beta0max * du()['beta0max','unit_factor'],
+      alphaoffset = input$alphaoffset * du()['alphaoffset','unit_factor'],
+      betaoffset = input$betaoffset * du()['betaoffset','unit_factor'],
+      dgrid = NULL
+    )
+  })
+  #3D plot root orientations
+  output$p_rootorientations3D <- plotly::renderPlotly({
+    plotly_orientations_3D(
+      do(),
+      input$ndimension,
+      input$beta0max * du()['beta0max','unit_factor'],
+      alphaoffset = input$alphaoffset * du()['alphaoffset','unit_factor'],
+      betaoffset = input$betaoffset * du()['betaoffset','unit_factor'],
+      dgrid = NULL
+    )
+  })
+
+
   ## GENERATE ROOT PROPERTY PLOTS
   #root diameter
   output$p_diameters <- plotly::renderPlotly({
@@ -188,12 +290,22 @@ server <- function(input, output) {
     plotly_stressstrain(dr()[1,], du = du())
   })
 
+  ## PLOT SOIL PROPERTY PLOTS
+  #soil mohr-coulomb
+  output$p_soilyieldcriterion <- plotly::renderPlotly({
+    plotly_soilyieldcriterion(ds()[1,], du = du())
+  })
+
   ##Update input widgets also when they are hidden (Shiny only assigns/changes a value when the input is visible)
   ##otherwise, plotting some graphs without manually visiting all input tabs first will throw an error.
   #root diameter
   outputOptions(output, 'ui_phirt', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_drmin', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_drmax', suspendWhenHidden=FALSE)
+  #root orientations
+  outputOptions(output, 'ui_beta0max', suspendWhenHidden=FALSE)
+  outputOptions(output, 'ui_alphaoffset', suspendWhenHidden=FALSE)
+  outputOptions(output, 'ui_betaoffset', suspendWhenHidden=FALSE)
   #root properties
   outputOptions(output, 'ui_dr0', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_tru0', suspendWhenHidden=FALSE)
@@ -203,6 +315,7 @@ server <- function(input, output) {
   outputOptions(output, 'ui_epsryepsru', suspendWhenHidden=FALSE)
   #soil properties
   outputOptions(output, 'ui_c', suspendWhenHidden=FALSE)
+  outputOptions(output, 'ui_phi', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_sign', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_taui', suspendWhenHidden=FALSE)
   outputOptions(output, 'ui_h0', suspendWhenHidden=FALSE)

@@ -5,9 +5,9 @@
 #' continuous distribution of initial root orienations in a 2D-plane.
 #'
 #' The azimuth is assumed zero, and the elevations uniformly distributed
-#' along an elevation range spanning from `-betamax` to `betamax`.
+#' along an elevation range spanning from `-beta0max` to `beta0max`.
 #'
-#' @param betamax the maximum elevation angle describing the spherical cap
+#' @param beta0max the maximum elevation angle describing the spherical cap
 #' @param n number of discrete orientation requested
 #' @return dataframe with the initial azimuth (`alpha0`), the initial
 #'   elevation (`beta0`) and the relative weight that should be assigned to
@@ -16,11 +16,11 @@
 #' orientations_initial_arc(pi/4, 6)
 #' @export
 
-orientations_initial_arc <- function(betamax, n){
+orientations_initial_arc <- function(beta0max, n){
   return(
     data.frame(
-      alpha = 0,
-      beta = betamax*seq((-1+1/n), (1-1/n), l=n),
+      alpha0 = 0,
+      beta0 = beta0max*seq((-1+1/n), (1-1/n), l=n),
       weight = 1/n
     )
   )

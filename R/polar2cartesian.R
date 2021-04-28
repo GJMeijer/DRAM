@@ -6,7 +6,8 @@
 #'
 #' @param alpha azimuth angles (numerical array)
 #' @param beta elevation angles (numerical array)
-#' @param data dataframe with fields `alpha` and `beta`. This dataframe
+#' @param data dataframe with fields `alpha` and `beta`, or `alpha0`
+#'   and `beta0`. This dataframe
 #'   is used if alpha and beta not specifically specified. Results for
 #'   cartesian coordinates are calculated and added to the dataframe
 #' @return a dataframe with cartesian coordinates. Contains fields for
@@ -29,9 +30,15 @@ polar2cartesian <- function(alpha = NULL, beta = NULL, data = NULL){
       )
     )
   } else {
-    data$x <- cos(data$alpha) * sin(data$beta)
-    data$y <- sin(data$alpha) * sin(data$beta)
-    data$z <- cos(data$beta)
+    if (all(c('alpha','beta') %in% colnames(data))){
+      data$x <- cos(data$alpha) * sin(data$beta)
+      data$y <- sin(data$alpha) * sin(data$beta)
+      data$z <- cos(data$beta)
+    } else if (all(c('alpha0','beta0') %in% colnames(data))){
+      data$x <- cos(data$alpha0) * sin(data$beta0)
+      data$y <- sin(data$alpha0) * sin(data$beta0)
+      data$z <- cos(data$beta0)
+    }
     return(data)
   }
 }

@@ -3,7 +3,7 @@
 #' @description
 #' Determines discrete number of root orientations that approximate a
 #' continuous distribution of initial root orienations on a spherical
-#' cap described by a maximum elevation angle `betamax`.
+#' cap described by a maximum elevation angle `beta0max`.
 #'
 #' Root orientations are distributed among a range of equal-width
 #' rings along the spherical cap. The number of cells in each band
@@ -20,7 +20,7 @@
 #' area of the cell it represents. The sum of weights for all orientations
 #' is 1.
 #'
-#' @param betamax the maximum elevation angle describing the spherical cap
+#' @param beta0max the maximum elevation angle describing the spherical cap
 #' @param n number of discrete orientation requested
 #' @param offset offset each row of cells by a certain fraction of the
 #'   azimuth width of the cell
@@ -28,21 +28,21 @@
 #'   elevation (`beta0`) and the relative weight that should be assigned to
 #'   each orientation (`weight`).
 #' @examples
-#' initial_orientations_sphericalcap(pi/4, 15)
-#' initial_orientations_sphericalcap(pi/4, 25)
+#' orientations_initial_sphericalcap(pi/4, 15)
+#' orientations_initial_sphericalcap(pi/4, 25)
 #' @export
 
-orientations_initial_sphericalcap <- function(betamax, n){
+orientations_initial_sphericalcap <- function(beta0max, n){
   #discretise spherical cap into number of cells
-  do <- initial_orientations_sphericalcap_discretise(betamax, n)
+  do <- orientations_initial_sphericalcap_discretise(beta0max, n)
   #elevation angle - average in terms of area
-  do$beta <- with(do, (sin(beta1)-sin(beta0)+beta0*cos(beta0)-beta1*cos(beta1))/(cos(beta0)-cos(beta1)))
+  do$beta0 <- with(do, (sin(beta0_1)-sin(beta0_0)+beta0_0*cos(beta0_0)-beta0_1*cos(beta0_1))/(cos(beta0_0)-cos(beta0_1)))
   #first band, if only one cell --> beta = 0
-  do$beta[do$band==1 & do$ncell==1] <- 0
+  do$beta0[do$band==1 & do$ncell==1] <- 0
   #weight assigned to each cell
-  do$weight <- with(do, (cos(beta0)-cos(beta1))/(1-cos(betamax))/ncell)
+  do$weight <- with(do, (cos(beta0_0)-cos(beta0_1))/(1-cos(beta0max))/ncell)
   #average azimuth
-  do$alpha <- with(do, 0.5*(alpha0 + alpha1))
+  do$alpha0 <- with(do, 0.5*(alpha0_0 + alpha0_1))
   #return
-  return(do[,c('alpha','beta','weight')])
+  return(do[,c('alpha0','beta0','weight')])
 }

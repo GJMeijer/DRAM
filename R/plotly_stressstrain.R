@@ -37,10 +37,10 @@ plotly_stressstrain <- function(dr, du = NULL, nsignif = 4){
     trtru  = c(0, dr$try[1]/dr$tru[1], 1, 0, 0)
   )
   #create hovertext
-  d1$HoverText <- with(d1, paste(
-    'Strain (normalised): ', signif(epsrepsru, nsignif), ' [-]', '<br>',
-    'Stress (normalised): ', signif(trtru, nsignif), ' [-]',
-    sep='')
+  d1$HoverText <- paste(
+    'Strain (normalised): ', signif(d1$epsrepsru, nsignif), '<br>',
+    'Stress (normalised): ', signif(d1$trtru, nsignif),
+    sep=''
   )
   #create weibull data
   n    <- 101
@@ -54,13 +54,13 @@ plotly_stressstrain <- function(dr, du = NULL, nsignif = 4){
     epsrepsru = c(eps1, eps2)/dr$epsru[1],
     trtru = c(tr1, tr2)/dr$tru[1]
   )
-  d2$fb <- with(d2, exp(-((trtru/lam)^kap)))
+  d2$fb <- exp(-((d2$trtru/lam)^kap))
   d2$trtru  <- with(d2, trtru*fb)
   #create hovertext
-  d2$HoverText <- with(d2, paste(
-    'Strain (normalised): ', signif(epsrepsru, nsignif), ' [-]', '<br>',
-    'Root fraction intact: ', signif(fb, nsignif), ' [-]',
-    sep='')
+  d2$HoverText <- paste(
+    'Strain (normalised): ', signif(d2$epsrepsru, nsignif), '<br>',
+    'Root fraction intact: ', signif(d2$fb, nsignif),
+    sep=''
   )
   #create plotly object
   p <- plotly::plot_ly()

@@ -35,8 +35,8 @@ plotly_tensilestrength <- function(dr, du = NULL, nsignif = 3) {
     ylab <- paste(ylab, ' [',  yunit, ']', sep='')
     #generate hover labels
     dr$HoverText <- paste(
-      'Average root diameter in diameter class: ', signif(dr$dr, nsignif), ' [',xunit,']', '<br>',
-      'Root tensile strength: ', signif(dr$tru, nsignif), ' [',yunit,']',
+      'Average root diameter in diameter class: ', signif(dr$dr, nsignif), ' ',xunit, '<br>',
+      'Root tensile strength: ', signif(dr$tru, nsignif), ' ',yunit,
       sep=''
     )
   } else {

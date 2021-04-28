@@ -35,8 +35,8 @@ plotly_rootlength <- function(dr, du = NULL, nsignif = 3) {
     ylab <- paste(ylab, ' [',  yunit, ']', sep='')
     #generate hover labels
     dr$HoverText <- paste(
-      'Average root diameter in diameter class: ', signif(dr$dr, nsignif), ' [',xunit,']', '<br>',
-      'Root length: ', signif(dr$Lr, nsignif), ' [',yunit,']',
+      'Average root diameter in diameter class: ', signif(dr$dr, nsignif), ' ',xunit, '<br>',
+      'Root length: ', signif(dr$Lr, nsignif), ' ',yunit,
       sep=''
     )
   } else {
