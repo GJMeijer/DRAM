@@ -223,7 +223,7 @@ server <- function(input, output) {
     )
   })
 
-  ## GENERATE COMBINATIONS OF ROOT PROPERTIES AND ORIENTATIONS
+  ## GENERATE ALL COMBINATIONS OF ROOT AND SOIL PROPERTIES
   da <- reactive({
     create_allorientationsproperties(dr(), do())
   })
@@ -234,20 +234,31 @@ server <- function(input, output) {
     validate(
       need(input$c>=0, "Soil cohesion must be equal or larger than 0"),
       need(input$phi>=0, "Soil friction angle must be equal or larger than 0"),
-      need(input$sign>=0, "Normal soil stress in shear zone must be equal or larger than 0")
+      need(input$sign>=0, "Normal soil stress in shear zone must be equal or larger than 0"),
+      need(input$taui>=0, "Root-soil interface friction cannot be negative"),
+      need(input$h0>=0,   "Initial shear zone thickness cannot be negative"),
+      need(input$hmax>=input$h0, "Maximum shear zone thickness cannot be smaller than initial shear zone thickness"),
+      need(input$usmax>0, "Final shear displacements needs to be a positive number"),
+      need(input$nstep>0, "Need a positive number of displacements steps"),
+      need(input$nstep%%1==0, "Number of shear displacements steps needs to be a positive integer")
     )
     #create soil properties
     data.frame(
       c = input$c * du()['c','unit_factor'],
       phi = input$phi * du()['phi','unit_factor'],
-      sign = input$sign * du()['sign','unit_factor']
+      sign = input$sign * du()['sign','unit_factor'],
+      taui = input$taui * du()['taui','unit_factor'],
+      h0 = input$h0 * du()['h0','unit_factor'],
+      hmax = input$hmax * du()['hmax','unit_factor'],
+      usmax = input$usmax * du()['usmax','unit_factor'],
+      nstep = input$nstep
     )
   })
 
   ## GENERATE ROOT ORIENTATION PLOTS
   #generate plot grid
   dgrid <- reactive({
-
+    1
   })
   #polar plot root orientations
   output$p_rootorientations2D <- plotly::renderPlotly({
@@ -271,7 +282,6 @@ server <- function(input, output) {
       dgrid = NULL
     )
   })
-
 
   ## GENERATE ROOT PROPERTY PLOTS
   #root diameter
@@ -300,6 +310,83 @@ server <- function(input, output) {
   output$p_soilyieldcriterion <- plotly::renderPlotly({
     plotly_soilyieldcriterion(ds()[1,], du = du())
   })
+
+  ## CALCULATE TAB
+  ## Calculate reinforcements using DRAM
+  #If button for calculation is pressed - create calculated values in SI units
+  dout <- eventReactive(
+    input$buttonCalculate, {
+    ## Create progress bar
+    #progress update function - is called in calculation function
+    updateProgress <- function() {
+      progress$inc(amount = 1/input$nstep)
+    }
+    #create progress object in Shiny
+    progress <- shiny::Progress$new()
+    #set initial value
+    progress$set(message = "Calculating root-reinforcements", value = 0)
+    # Close the progress when this reactive exits (even if there's an error)
+    on.exit(progress$close())
+    ## run analysis
+    dram_runanalysis(da(), ds(), updateProgress)
+  })
+
+  #make test table
+   #output$table <- renderTable(dinput_save())
+   #output$table <- renderTable(dout()$all)
+   #output$table <- renderTable(c(input$drmin, input$drmax, input$nc, input$betaphi, input$phirt))
+
+  # Split DRM output list in all data and summary data
+   #dout_all <- reactive({ dout()$all })
+   #dout_sum <- reactive({ dout()$sum })
+
+  ## postprocessing results
+  #analyse root fractions slipping, breaking etc
+   #dfrc <- reactive({
+   #  f_fractions(dout_all(), dout_sum(), dr())
+   #})
+
+  ## Create output plots - DRM
+  #root-reinforcement
+   #output$p_reinforcement <- renderPlotly({ plot_reinforcement(dout_sum(), du()) })
+  #shear zone thickness
+   #output$p_shearzonethickness <- renderPlotly({ plot_shearzonethickness(dout_sum(), du()) })
+  #fractions
+   #output$p_behaviourfractions <- renderPlotly({ plot_behaviourfractions(dfrc(), du()) })
+
+  ## DOWNLOAD DRM input and output
+  ## Download output
+  #check if calculate button has been pressed at least once
+  calcpressed <- eventReactive(input$buttonCalculate, T)
+  #show download output button (only if calculation button has been pressed at least once)
+  output$DownloadOutputButton <- renderUI({
+    if (calcpressed() ==T) {
+      downloadButton('DownloadOutput', 'Download Output')
+    }
+  })
+  ## provide download option - output
+  output$DownloadOutput <- downloadHandler(
+    filename = function() {
+      paste('Output_model','.csv', sep = "")
+    },
+    content = function(file) {
+      write.csv(f_dataframeoutputparameters(dfrc(), du()), file, row.names = FALSE)
+    }
+  )
+  ## Download input
+  #Create dataframe with input variables
+  dinput_save <- reactive({
+    datasave_inputparameters(input, norientation_used = nrow(do()), du = du())
+  })
+  #provide download option - input
+  output$DownloadInput <- downloadHandler(
+    filename = function() {
+      paste('Input_model','.csv', sep = "")
+    },
+    content = function(file) {
+      write.csv(dinput_save(), file, row.names = FALSE)
+    }
+  )
 
   ##Update input widgets also when they are hidden (Shiny only assigns/changes a value when the input is visible)
   ##otherwise, plotting some graphs without manually visiting all input tabs first will throw an error.

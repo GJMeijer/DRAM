@@ -1,8 +1,9 @@
 #' Calculate root reinforcement from known root stresses
 #'
 #' @description
-#' Calculates the current amount of root reinforcement
-#' 
+#' Calculates the current amount of root reinforcement for each root in
+#' the input.
+#'
 #' @param phi soil angle of internal friction
 #' @param tr tensile stress in root (including breakage effects)
 #' @param phir root area ratio per root

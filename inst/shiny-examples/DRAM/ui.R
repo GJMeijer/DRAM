@@ -325,7 +325,7 @@ ui <- navbarPage(
           #header
           h3("Shear displacement settings"),
           #maximum shear displacement
-          uiOutput("ui_umax"),
+          uiOutput("ui_usmax"),
           #number of shear displacement steps
           numericInput(
             "nstep",
@@ -386,18 +386,19 @@ ui <- navbarPage(
       column(
         6,
         #plot DRM root-reinforcement as function of shear displacement
-        plotly::plotlyOutput("p_reinforcement")
+        tableOutput('table')
+         #plotly::plotlyOutput("p_reinforcement")
       ),
       column(
         6,
         #plot DRM shear zone thickness as function of shear displacement
-        plotly::plotlyOutput("p_shearzonethickness")
+         #plotly::plotlyOutput("p_shearzonethickness")
       )
     ),
     br(),
     fluidRow(
       #plot root behaviour fractions as function of shear displacement
-      plotly::plotlyOutput("p_behaviourfractions")
+       #plotly::plotlyOutput("p_behaviourfractions")
     )
   )
 )

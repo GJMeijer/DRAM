@@ -1,11 +1,11 @@
 parameter,class,unit_type,unit_si,value_default,value_min,value_max,value_step
-phirt,input,rootarearatio,-,0.002,,,
-betaphi,input,dimensionless,1,0,,,
+phirt,input,rootarearatio,-,0.1,,,
+betaphi,input,dimensionless,-,0.2,,,
 drmin,input,rootlength,m,0.001,,,
 drmax,input,rootlength,m,0.005,,,
-nc,input,integer,1,10,1,100,1
-ndimension,input,integer,1,3,,,
-norientation,input,integer,1,16,1,100,1
+nc,input,integer,-,10,1,100,1
+ndimension,input,integer,-,3,,,
+norientation,input,integer,-,16,1,100,1
 beta0max,input,angle,rad,0.523598776,0,1.570796327,0.017453293
 alphaoffset,input,angle,rad,0,-3.141592654,3.141592654,0.017453293
 betaoffset,input,angle,rad,0,0,1.570796327,0.017453293
@@ -46,3 +46,4 @@ phir,output,rootarearatio,-,,,,
 tausu,output,soilstress,Pa,,,,
 alpha0,output,angle,rad,,,,
 beta0,output,angle,rad,,,,
+norientation_used,output,integer,-,,,,
