@@ -215,12 +215,17 @@ server <- function(input, output) {
       need(input$kappat>0, "Weibull shape parameter needs to be larger than 0")
     )
     #create root properties
-    shiny_rootproperties(
+    create_rootproperties(
       input$drmin, input$drmax, input$nc, input$phirt, input$betaphi,
       input$Lr0, input$betaL, input$tru0, input$betat, input$trytru,
       input$epsru0, input$betaeps, input$epsryepsru, input$kappat,
       dr0 = input$dr0, du = du()
     )
+  })
+
+  ## GENERATE COMBINATIONS OF ROOT PROPERTIES AND ORIENTATIONS
+  da <- reactive({
+    create_allorientationsproperties(dr(), do())
   })
 
   ## GENERATE SOIL PROPERTIES

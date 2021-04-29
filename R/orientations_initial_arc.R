@@ -17,11 +17,15 @@
 #' @export
 
 orientations_initial_arc <- function(beta0max, n){
-  return(
-    data.frame(
-      alpha0 = 0,
-      beta0 = beta0max*seq((-1+1/n), (1-1/n), l=n),
-      weight = 1/n
-    )
+  #create all orientations
+  do <- data.frame(
+    alpha0 = 0,
+    beta0 = beta0max*seq((-1+1/n), (1-1/n), l=n),
+    weight = 1/n
   )
+  #make sure all elevations are positive
+  do$alpha0[do$beta0<0] <- -pi
+  do$beta0[do$beta0<0] <- -do$beta0[do$beta0<0]
+  #return
+  return(do)
 }

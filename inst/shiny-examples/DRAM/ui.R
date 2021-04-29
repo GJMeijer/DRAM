@@ -346,5 +346,58 @@ ui <- navbarPage(
         6,
       )
     ),
+  ),
+
+  ## CALCULATE
+  tabPanel(
+    "Calculate",
+    ## Input and buttons
+    fluidRow(
+      column(
+        4,
+        wellPanel(
+          #make action button to do calculation
+          actionButton(
+            "buttonCalculate",
+            "Start calculations"
+          )
+        )
+      ),
+      column(
+        4,
+        wellPanel(
+          #create download button for input parameters
+          downloadButton(
+            "DownloadInput",
+            "Download Input"
+          )
+        )
+      ),
+      column(
+        4,
+        wellPanel(
+          #create download button for output parameters
+          uiOutput("DownloadOutputButton")
+        )
+      )
+    ),
+    ## Plots
+    fluidRow(
+      column(
+        6,
+        #plot DRM root-reinforcement as function of shear displacement
+        plotly::plotlyOutput("p_reinforcement")
+      ),
+      column(
+        6,
+        #plot DRM shear zone thickness as function of shear displacement
+        plotly::plotlyOutput("p_shearzonethickness")
+      )
+    ),
+    br(),
+    fluidRow(
+      #plot root behaviour fractions as function of shear displacement
+      plotly::plotlyOutput("p_behaviourfractions")
+    )
   )
 )

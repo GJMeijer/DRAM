@@ -23,10 +23,10 @@
 #' @param du dataframe with unit conversions
 #' @return dataframe with root diameter classes and root properties
 #' @examples
-#' shiny_rootproperties(2,5, 10, 0.01,-0.2, 1,0.5, 10e6,-0.5,0.5, 0.2,0,0.1, 5)
+#' create_rootproperties(2,5, 10, 0.01,-0.2, 1,0.5, 10e6,-0.5,0.5, 0.2,0,0.1, 5)
 #' @export
 
-shiny_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tru0,betat,trytru, epsru0,betaeps,epsryepsru, kappat, dr0 = 1, du = NULL){
+create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tru0,betat,trytru, epsru0,betaeps,epsryepsru, kappat, dr0 = 1, du = NULL){
   #split into root classes and assign fraction of root area ratio per diameter
   if (is_near(drmin, drmax)){
     d <- data.frame(
