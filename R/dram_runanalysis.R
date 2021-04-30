@@ -77,7 +77,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
     rootID = da$rootID,
     stepID = dos$stepID,
     tr = 0,
-    fb = 0,
+    fb = 1,
     cr = 0,
     flag = 0
   )

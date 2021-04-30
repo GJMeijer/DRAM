@@ -17,8 +17,7 @@
 #' )
 #' plotly_soilyieldcriterion(ds)
 #' @export
-#'
-#Soil Mohr-Coulomb yield criterion
+
 plotly_soilyieldcriterion <- function(ds, du = NULL, nsignif = 4) {
   #base label
   xlab <- 'Normal effective stress'

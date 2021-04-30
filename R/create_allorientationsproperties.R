@@ -30,6 +30,8 @@ create_allorientationsproperties <- function(dr, do){
   #create field for root area ratio (in bath <dr> and <do>, the total root area
   #ratio sums to <phirt>, so when combining the result needs to be corrected)
   da$phir <- da$phir.x * da$phir.y / phirt
+  #add a unique identifier to each root
+  da$rootID <- seq(nrow(da))
   #column names for output
   colnames_out <- colnames(da)[!colnames(da)%in%c('phir.x','phir.y')]
   #return

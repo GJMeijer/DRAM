@@ -73,8 +73,6 @@ create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tr
   #root area and length
   d$Ar <- pi/4 * (d$dr)^2
   d$Cr <- pi * (d$dr)
-  #add a unique identifier to each root
-  d$rootID <- seq(nrow(d))
   #return
   return(d)
 }

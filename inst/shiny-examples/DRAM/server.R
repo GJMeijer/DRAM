@@ -331,28 +331,26 @@ server <- function(input, output) {
     dram_runanalysis(da(), ds(), updateProgress)
   })
 
-  #make test table
-   #output$table <- renderTable(dinput_save())
-   #output$table <- renderTable(dout()$all)
-   #output$table <- renderTable(c(input$drmin, input$drmax, input$nc, input$betaphi, input$phirt))
-
-  # Split DRM output list in all data and summary data
-   #dout_all <- reactive({ dout()$all })
-   #dout_sum <- reactive({ dout()$sum })
-
   ## postprocessing results
-  #analyse root fractions slipping, breaking etc
-   #dfrc <- reactive({
-   #  f_fractions(dout_all(), dout_sum(), dr())
-   #})
+  #analyse root fractions slipping, breaking etc - add to summary data
+  dsum <- reactive({
+    postprocess_roottypes(dout()$sum, dout()$all, da())
+  })
+  #output$table <- renderTable(dsum())
 
   ## Create output plots - DRM
   #root-reinforcement
-   #output$p_reinforcement <- renderPlotly({ plot_reinforcement(dout_sum(), du()) })
+  output$p_reinforcement <- plotly::renderPlotly({
+    plotly_reinforcement(dout()$sum, du = du())
+  })
   #shear zone thickness
-   #output$p_shearzonethickness <- renderPlotly({ plot_shearzonethickness(dout_sum(), du()) })
+  output$p_shearzonethickness <- plotly::renderPlotly({
+    plotly_shearzonethickness(dout()$sum, du = du())
+  })
   #fractions
-   #output$p_behaviourfractions <- renderPlotly({ plot_behaviourfractions(dfrc(), du()) })
+  output$p_behaviourfractions <- plotly::renderPlotly({
+    plotly_behaviourfractions(dsum(), du = du())
+  })
 
   ## DOWNLOAD DRM input and output
   ## Download output
@@ -370,21 +368,25 @@ server <- function(input, output) {
       paste('Output_model','.csv', sep = "")
     },
     content = function(file) {
-      write.csv(f_dataframeoutputparameters(dfrc(), du()), file, row.names = FALSE)
+      write.csv(
+        datasave_outputparameters(dsum(), du = du()),
+        file,
+        row.names = FALSE
+      )
     }
   )
   ## Download input
-  #Create dataframe with input variables
-  dinput_save <- reactive({
-    datasave_inputparameters(input, norientation_used = nrow(do()), du = du())
-  })
   #provide download option - input
   output$DownloadInput <- downloadHandler(
     filename = function() {
       paste('Input_model','.csv', sep = "")
     },
     content = function(file) {
-      write.csv(dinput_save(), file, row.names = FALSE)
+      write.csv(
+        datasave_inputparameters(input, norientation_used = nrow(do()), du = du()),
+        file,
+        row.names = FALSE
+      )
     }
   )
 
