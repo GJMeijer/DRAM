@@ -184,7 +184,7 @@ server <- function(input, output) {
   ## Create unit system and default/min/max/step settings required for UI input widgets
   #load from external file
   du <- reactive({
-    shiny_unitsystem(dp, input$lengthunit_radio, input$rootstressunit_radio, input$soilstressunit_radio, 1, 1)
+    shiny_unitsystem(dp, input$lengthunit_radio, input$rootstressunit_radio, input$soilstressunit_radio, input$rootstrainunit_radio, input$rootarearatiounit_radio, 1)
   })
 
   ## GENERATE ROOT ORIENTATIONS
@@ -268,6 +268,7 @@ server <- function(input, output) {
       input$beta0max * du()['beta0max','unit_factor'],
       alphaoffset = input$alphaoffset * du()['alphaoffset','unit_factor'],
       betaoffset = input$betaoffset * du()['betaoffset','unit_factor'],
+      du = du(),
       dgrid = NULL
     )
   })
@@ -279,6 +280,7 @@ server <- function(input, output) {
       input$beta0max * du()['beta0max','unit_factor'],
       alphaoffset = input$alphaoffset * du()['alphaoffset','unit_factor'],
       betaoffset = input$betaoffset * du()['betaoffset','unit_factor'],
+      du = du(),
       dgrid = NULL
     )
   })
@@ -356,16 +358,19 @@ server <- function(input, output) {
   ## Download output
   #check if calculate button has been pressed at least once
   calcpressed <- eventReactive(input$buttonCalculate, T)
-  #show download output button (only if calculation button has been pressed at least once)
+  #show download output buttons (only if calculation button has been pressed at least once)
   output$DownloadOutputButton <- renderUI({
-    if (calcpressed() ==T) {
-      downloadButton('DownloadOutput', 'Download Output')
+    if (calcpressed() == TRUE) {
+      downloadButton(
+        'DownloadOutput',
+        HTML('Download results per<br> displacement step')
+      )
     }
   })
   ## provide download option - output
   output$DownloadOutput <- downloadHandler(
     filename = function() {
-      paste('Output_model','.csv', sep = "")
+      paste('Output_perstep','.csv', sep = "")
     },
     content = function(file) {
       write.csv(
@@ -375,15 +380,50 @@ server <- function(input, output) {
       )
     }
   )
+  #output per root and step
+  output$DownloadOutputAllButton <- renderUI({
+    if (calcpressed() == TRUE) {
+      downloadButton(
+        'DownloadOutputAll',
+        HTML('Download results per<br>displacement step and per root')
+      )
+    }
+  })
+  output$DownloadOutputAll <- downloadHandler(
+    filename = function() {
+      paste('Output_perstepandroot','.csv', sep = "")
+    },
+    content = function(file) {
+      write.csv(
+        datasave_outputparameters(dout()$all, du = du()),
+        file,
+        row.names = FALSE
+      )
+    }
+  )
+
   ## Download input
   #provide download option - input
   output$DownloadInput <- downloadHandler(
     filename = function() {
-      paste('Input_model','.csv', sep = "")
+      paste('Input_parameters','.csv', sep = "")
     },
     content = function(file) {
       write.csv(
         datasave_inputparameters(input, norientation_used = nrow(do()), du = du()),
+        file,
+        row.names = FALSE
+      )
+    }
+  )
+  #provide download option - root input
+  output$DownloadRootInput <- downloadHandler(
+    filename = function() {
+      paste('Input_rootproperties','.csv', sep = "")
+    },
+    content = function(file) {
+      write.csv(
+        datasave_outputparameters(da()[,!colnames(da())%in%c('Ar','Cr','weight')], du = du()),
         file,
         row.names = FALSE
       )

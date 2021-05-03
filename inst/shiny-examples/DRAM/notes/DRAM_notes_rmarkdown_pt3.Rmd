@@ -1,90 +1,109 @@
 ### Coordinate system
+
 Coordinates and angles are expressed in a right-handed coordinate system, orientated in such a way that $x$ points in the direction of shear displacement $u$, and $z$ is normal to the shear pointing in the direction of the displacing soil block.
 
 The orientation of non-displaced roots is described in spherical coordinates; azimuth $\alpha_0$ (the angle between the $x$-axis and the orientation of the root projected on the $x$-$y$ plane) and elevation angle $\beta_0$ (angle between $z$-axis and root axis).
 
+
 ### Input tab: 'Root diameters'
+
 The range of discrete root diameters can be included in model calculations, and the model provides some flexibility in how much root volume to ascribe to each root diameter class. 
 
 The following parameters are used:
-* $d_{r,min}$ (drmin): The smallest root diameter in the bundle or roots analysed;
-* $d_{r,max}$ (drmax): The largest root diameter in the bundle or roots analysed;
-* $\phi_{rt}$ (phirt): The total fraction of soil volume occupied by root material;
-* $b_\phi$ (bphi): A parameter governing how the total root volume is distributed over all root classes. It is assumed that the distribution function describing how much root volume to ascribe to each diameter $d_r$ follows as power law: $$\phi_r(d_r) = a_\phi  \Bigg( \frac{d_r}{d_{r,ref}} \Bigg)^{b_\phi}$$Parameter $a_\phi$ can be defined in terms of total root volume fraction $\phi_{rt}$: $$\phi_{rt} = \int_{d_r=d_{r,min}}^{d_{r,max}} \phi_r(d_r)$$When $b_\phi=0$, the root volume is equally spread over all root diameters, when $b_\phi>0$, larger roots take up most of the root volume, and when $b_\phi<0$, smaller roots take up the majority of the total root volume;
-* $n_d$ (ndia) [-]: The number of discrete root classes that should be used. These classes will be uniformly distributed over the diameter range $d_{r,min} \leq d_r \leq d_{r,max}$ provided by the user.
+
+* $d_{r,min}$ (`drmin`): The smallest root diameter in the bundle or roots analysed;
+* $d_{r,max}$ (`drmax`): The largest root diameter in the bundle or roots analysed;
+* $\phi_{r,t}$ (`phirt`): The total fraction of soil volume occupied by root material;
+* $\beta_\phi$ (`betaphi`): A parameter governing how the total root volume is distributed over all root classes. It is assumed that the distribution function describing how much root volume to ascribe to each diameter $d_r$ follows as power law: $$\phi_r = \phi_{r,0}  \Bigg( \frac{d_r}{d_{r,0}} \Bigg)^{\beta_\phi}$$Parameter $\phi_{r,0}$ can be defined in terms of total root volume fraction $\phi_{r,t}$: $$\phi_{r,t} = \int_{d_r=d_{r,min}}^{d_{r,max}} \phi_r$$When $\beta_\phi=0$, the root volume is equally spread over all root diameters, when $\beta_\phi>0$, larger roots take up most of the root volume, and when $\beta_\phi<0$, smaller roots take up the majority of the total root volume;
+* $n_c$ (`nc`) [-]: The number of discrete root classes that should be used. These classes will be uniformly distributed over the diameter range $d_{r,min} \leq d_r \leq d_{r,max}$ provided by the user.
+
 
 ### Input tab: 'Root orientations'
+
 A range of root orientations can be defined. For every root diameter class, the distribution of root orientations is assumed to be uniform over the range in orientations specified by the user. 
 Initial root orientations are defined in a coordinate system $x'$-$y'$-$z'$ ($\alpha'_0$, $\beta'_0$) that is rotated by azimuth angle $\alpha_{offset}$ and elevation angle $\beta_{offset}$ with respect to coordinate system $x$-$y$-$z$. 
 
 The following parameters are defined.
-* $n_{dim}$ (ndim): The number of root-orientation dimensions that is considered:
+* $n_{dimension}$ (`ndimension`): The number of root-orientation dimensions that is considered:
   * 1-dimensional: When 1-D root orientations are selected, only a single root orientation is used: $\alpha'_0=0^\circ$ and $\beta'_0=0^\circ$;
   * 2-dimensional: When 2-D root orientations are selected, all roots are orientated in a single 2-D plane. Azimuth angles $\alpha'_0=0$ for all roots, and elevation angles are uniformly distributed on the domain $0 \leq \beta'_0 \leq \beta'_{0,max}$, where $\beta'_{0,max}$ is the maximum initial root elevation angle specified by the user;
   * 3-dimensional: When 3-D root orientations are selected, roots are orientated in three dimensional space. Roots are uniformly distributed over a spherical cap, described by the domain $-180^\circ \leq \alpha'_0 < 180^\circ$ and $0 \leq \beta'_0 \leq \beta'_{0,max}$. The uniform distribution of root orientations in this domain was approximated by a finite number of root orientations. These orientations are found by transforming a regular rectangular grid unto the speherical cap (see manual for details). The midpoints of each grid cell become the discrete root orientations. Since (transformed) grid cells may each have slightly different surface areas, for each discrete root orientation the weighting factor (i.e. the fraction of root volume belonging to this orientation over the total root volume) is determined based on the relative surface area of the transformed grid cell with respect to the surface area of the spherical cap;
-* $n_{ori}$ (nori): The number of discrete root orientations used in the model to approximate the uniform distribution of root orientations on the specified domain. Note that $n_{ori}$ defaults to 1 when $n_{dim}=1$. When $n_{dim}=3$, the used number of discrete orientations may be slightly larger than specified in the input, depending on the availability of a suitable Lebedev quadrature scheme;
-* $\beta'_{0,max}$ (beta0max): The largest elevation angle of roots in the bundle, expressed in the rotated coordinate system $x'$-$y'$-$z'$;
-* $\alpha_{offset}$ (alphaoffset): The azimuth angle between the rotated system $x'$-$y'$-$z'$ (used for defining initial root orientations) and the coordinate system $x$-$y$-$z$ (used for shearing);
-* $\beta_{offset}$ (betaoffset): The elevation angle between the rotated system $x'$-$y'$-$z'$ (used for defining initial root orientations) and the coordinate system $x$-$y$-$z$ (used for shearing).
+* $n_{orientation}$ (`norientation`): The number of discrete root orientations used in the model to approximate the uniform distribution of root orientations on the specified domain. Note that $n_{ori}$ defaults to 1 when $n_{dim}=1$. When $n_{dim}=3$, the used number of discrete orientations may be slightly larger than specified in the input.
+* $\beta'_{0,max}$ (`beta0max`): The largest elevation angle of roots in the bundle, expressed in the rotated coordinate system $x'$-$y'$-$z'$;
+* $\alpha_{offset}$ (`alphaoffset`): The azimuth angle between the rotated system $x'$-$y'$-$z'$ (used for defining initial root orientations) and the coordinate system $x$-$y$-$z$ (used for shearing);
+* $\beta_{offset}$ (`betaoffset`): The elevation angle between the rotated system $x'$-$y'$-$z'$ (used for defining initial root orientations) and the coordinate system $x$-$y$-$z$ (used for shearing).
+
 
 ### Input tab: 'Root properties'
-On this input tab, root lengths and biomechanical properties are assigned to each discrete root diameter class defined previously. Root lengths $L_r$, root tensile strengths $t_{ru}$ and root tensile strain to failure $\epsilon_{ru}$ are all expressed as power-law functions based on the root diameter $d_r$:
-$$ t_{ru}(d_r) = a_t \Bigg(\frac{d_r}{d_{r,ref}}\Bigg)^{b_t} $$
-$$ \epsilon_{ru}(d_r) = a_\epsilon \Bigg(\frac{d_r}{d_{r,ref}}\Bigg)^{b_\epsilon} $$
-$$ L_{r}(d_r) = a_L \Bigg(\frac{d_r}{d_{r,ref}}\Bigg)^{b_L} $$
-where $d_{r,ref}$ is a reference diameter, usually chosen as $d_{r,ref}=1$ mm, required for maintaining a consistent system of units. 
 
-Roots can be modelled as elastoplastic, where $t_{ry}$ is the yield tensile strength and $\epsilon_{ry}$ the yield tensile strain. Thus, the (elastic) Young's modulus $E_{re}$ equals:
-$$ E_{re} = \frac{t_{ry}}{\epsilon_{ry}} $$
-and the elastoplastic stiffness $E_{rep}$:
-$$ E_{rep} = \frac{t_{ru} - t_{ry}}{\epsilon_{ru} - \epsilon_{ry}} $$
+On this input tab, root lengths and biomechanical properties are assigned to each discrete root diameter class defined previously. Root lengths $L_r$, root tensile strengths $t_{r,u}$ and root tensile strain to failure $\epsilon_{r,u}$ are all expressed as power-law functions based on the root diameter $d_r$:
+$$ t_{r,u} = t_{r,u,0} \Bigg(\frac{d_r}{d_{r,0}}\Bigg)^{\beta_t} $$
+$$ \epsilon_{r,u} = \epsilon_{r,u,0} \Bigg(\frac{d_r}{d_{r,0}}\Bigg)^{\beta_\epsilon} $$
+$$ L_{r} = L_{r,0} \Bigg(\frac{d_r}{d_{r,0}}\Bigg)^{\beta_L} $$
+where $d_{r,0}$ is a reference diameter, usually chosen as $d_{r,0}=1$ mm, required for maintaining a consistent system of units. 
 
-Gradual breakage of roots within a diameter class was included using a Weibull function. The parameter $f_{break}$ ($f_{break}=1$ when all root is intact, and $f_{break}=0$ when all root is broken) equals:
-$$ f_{break} = -\exp \Bigg[-\Bigg( \frac{t_r}{\lambda_t} \Bigg)^{\kappa_t} \Bigg] $$
-where $t_r$ is the tensile stress in the root, $\kappa_t$ the Weibull shape parameter and $\lambda_t$ the Weibull scale parameter, which is related to the average root strength $t_{ru}$:
-$$ \lambda_t = \frac{t_{ru}}{\Gamma(1 + 1/\kappa_t)} $$
+Roots can be modelled as elastoplastic, where $t_{r,y}$ is the yield tensile strength and $\epsilon_{r,y}$ the yield tensile strain. Thus, the (elastic) Young's modulus $E_{r,e}$ equals:
+$$ E_{r,e} = \frac{t_{r,y}}{\epsilon_{r,y}} $$
+and the elastoplastic stiffness $E_{r,ep}$:
+$$ E_{r,ep} = \frac{t_{r,u} - t_{r,y}}{\epsilon_{r,u} - \epsilon_{r,y}} $$
+
+Gradual breakage of roots within a diameter class was included using a Weibull function. The parameter $f_{b}$ ($f_{b}=1$ when all root is intact, and $f_{b}=0$ when all root is broken) equals:
+$$ f_{b} = -\exp \Bigg[-\Bigg( \frac{t_r}{\lambda_t} \Bigg)^{\kappa_t} \Bigg] $$
+where $t_r$ is the tensile stress in the root, $\kappa_t$ the Weibull shape parameter and $\lambda_t$ the Weibull scale parameter, which is related to the average root strength $t_{r,u}$:
+$$ \lambda_t = \frac{t_{r,u}}{\Gamma(1 + 1/\kappa_t)} $$
 where $\Gamma$ is the Gamma-function.
 
 The following parameters are defined:
-* $d_{r,ref}$ (drref): a reference diameter required for power-law functions;
-* $a_t$ (at): root tensile strength at diameter $d_r=d_{r,ref}$;
-* $b_t$ (bt): root diameter--root tensile strength power coefficient;
-* $a_\epsilon$ (ae): root tensile strain to failure at diameter $d_r=d_{r,ref}$;
-* $b_\epsilon$ (bt): root diameter--root tensile strain to failure power coefficient;
-* $a_L$ (aL): root length at diameter $d_r=d_{r,ref}$;
-* $b_L$ (bt): root diameter--root length power coefficient;
-* $t_{ry}/t_{ru}$ (trytru): ratio between root yield strength and ultimate tensile strength;
-* $\epsilon_{ry}/\epsilon_{ru}$ (eryeru): ratio between root yield strain and tensile strain to failure;
-* $\kappa_{t}$ (kappat): Weibull shape parameter for distribution of root tensile strength.
+* $d_{r,0}$ (`drref`): a reference diameter required for power-law functions;
+* $t_{r,u,0}$ (`tru0`): root tensile strength at diameter $d_r=d_{r,0}$;
+* $\beta_t$ (`betat`): root diameter--root tensile strength power coefficient;
+* $\epsilon_{r,u,0}$ (`epsru0`): root tensile strain to failure at diameter $d_r=d_{r,0}$;
+* $\beta_\epsilon$ (`betaeps`): root diameter--root tensile strain to failure power coefficient;
+* $L_{r,0}$ (`Lr0`): root length at diameter $d_r=d_{r,0}$;
+* $\beta_L$ (`betaL`): root diameter--root length power coefficient;
+* $t_{r,y}/t_{r,u}$ (`trytru`): ratio between root yield strength and ultimate tensile strength;
+* $\epsilon_{r,y}/\epsilon_{r,u}$ (`epsryepsru`): ratio between root yield strain and tensile strain to failure;
+* $\kappa_{t}$ (`kappat`): Weibull shape parameter for distribution of root tensile strength.
 
-If elastic root behaviour is required instead of elastoplastic, simply ensure that input parameters $t_{ry}/t_{ru} = \epsilon_{ry}/\epsilon_{ru}$. 
+If elastic root behaviour is required instead of elastoplastic, simply ensure that input parameters $t_{r,y}/t_{r,u} = \epsilon_{r,y}/\epsilon_{r,u}$. 
+
 
 ### Input tab: 'Soil properties'
+
 On this input tab, soil properties, root-soil interface properties, shear zone properties and shear displacements are defined. The soil behaves according to the Mohr-Coulomb failure criterion. 
 
 The following parameters are defined:
-* $c$ (c): Soil cohesion (do not include any root effects here);
-* $\phi'$ (phi): Soil angle of internal friction;
-* $\sigma'_n$ (sign): Soil effective normal stress acting on the shear plane (do not include any root effects);
-* $h_0$ (h0): Initial thickness of the shear zone, at shear displacement $u=0$;
-* $h_{max}$ (hmax): Maximum (limiting) thickness of the shear zone;
-* $u_{max}$ (umax): Maximum shear displacement $u$ to include in the model;
-* $n_{step}$ (nstep): Number of discrete shear displacement steps analyses in the model, uniformly spaced on the domain $0 \leq u \leq u_{max}$.
+* $c$ (`c`): Soil cohesion (do not include any root effects here);
+* $\phi'$ (`phi`): Soil angle of internal friction;
+* $\sigma'_n$ (`sign`): Soil effective normal stress acting on the shear plane (do not include any root effects);
+* $h_0$ (`h0`): Initial thickness of the shear zone, at shear displacement $u=0$;
+* $h_{max}$ (`hmax`): Maximum (limiting) thickness of the shear zone;
+* $u_{s,max}$ (`usmax`): Maximum shear displacement $u$ to include in the model;
+* $n_{step}$ (`nstep`): Number of discrete shear displacement steps analyses in the model, uniformly spaced on the domain $0 \leq u \leq u_{max}$.
+
 
 ## Output
-Output is provided on two output tabs: one gives the output for the Dundee Root Model, and another presents the results of other existing root-reinforcement models using the same set of input parameters.
+
+Output is provided on two output tabs: one gives the output for the DRAM, and another presents the results of other existing root-reinforcement models using the same set of input parameters.
+
 
 ### Output tab: 'Calculate'
+
 Calculations for the Dundee Root Model are started by pressing the button 'Start calculations' on the 'Calculate' tab. 
 
 Once finished, three plots will appear:
-* Shear displacement--root reinforcement plot: Plots the calculated root-reinforcement $c_r$ as function of direct shear displacement $u$. Peak root-reinforcements $c_{ru}$ are indicated on the plot. The 'WWM-coefficient' indicates the corresponding multiplication factor when using the Wu/Waldron model;
-* Shear displacement--shear zone thickness plot: Plots the thickness of the shear zone ($h$) as function of shear displacement ($u$);
+* Shear displacement--root reinforcement plot: Plots the calculated root-reinforcement $c_r$ as function of direct shear displacement $u_s$. Peak root-reinforcements $c_{r,u}$ are indicated on the plot. 
+* Shear displacement--shear zone thickness plot: Plots the thickness of the shear zone ($h$) as function of shear displacement ($u_s$);
 * Shear displacement--root fraction plot. This stacked area plot indicates the fractions of the total root volume of roots behaving elastic, elastoplastic, anchored, slipping, broken etc., as function of shear displacement. This plots should give some insight of what the dominant type of root behaviour is during the test. The sum of all behaviour groups equals 1.
 
-In addition, two files can be downloaded:
-* Input: Contains a list of all input parameters fed into the model;
-* Output: Contains computed reinforcements ('cr'), shear zone thicknesses ('h'), Equivalent Wu/Waldron factors ('WWMfactor', i.e. the WWM multiplication factor that is required to match the peak root-reinforcement calculated using the DRM), fractions of root behaviour according to a certain type, all as function of direct shear displacement ('u'). This file can only be downloaded after the calculations have finished.
+In addition, four files can be downloaded:
+* Input parameters: Contains a list of all input parameters fed into the model;
+* Input root properties and orientations: Contains a list of all roots used in the model (all unique combinations of orientations and root properties).;
+* Output per step: Contains computed reinforcements (`cr`), shear zone thicknesses (`h`), fractions of root behaviour according to a certain type, all as function of direct shear displacement (`u_s`). This file can only be downloaded after the calculations have finished.
+* Output per step and root: Contains the tensile stress (`tr`, not accounting for root breakage) and the breakage parameter (`fb`) for each root at each soil displacement step. The identifiers for the soil displacement step (`soilID`) and root (`rootID`) correspond with the identifiers used in 'output per step' and 'Input root properties and orientations' files.
+
+The output files can only be downloaded after the calculations have finished.
+
 
 ### Output tab: 'Comparison to existing models'
 On this tab, root-reinforcement is calculated using existing models.

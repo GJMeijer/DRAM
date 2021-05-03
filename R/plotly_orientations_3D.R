@@ -40,12 +40,23 @@ plotly_orientations_3D <- function(do, ndimension, beta0max, alphaoffset = 0, be
   p <- plotly::plot_ly()
   ## ADD ORIENTATIONS AS POINTS AND LINES
   dpp <- polar2cartesian(data = do)
-  dpp$HoverText <- with(dpp, paste(
-    'Azimuth: ', signif(alpha0*180/pi, nsignif), ' [deg]',
-    '<br>', 'Elevation: ', signif(beta0*180/pi, nsignif), ' [deg]',
-    '<br>', 'Weight: ', signif(weight*100, nsignif), ' [%]',
-    sep='')
-  )
+  if (!is.null(du)){
+    dpp$HoverText <- with(dpp, paste(
+      'Azimuth angle: ', signif(alpha0*180/pi, nsignif), ' deg',
+      '<br>', 'Elevation angle: ', signif(beta0*180/pi, nsignif), ' deg',
+      '<br>', 'Weight: ', signif(weight*100, nsignif), ' %',
+      '<br>', 'Root area ratio: ', signif(phir/du['phir','unit_factor'], nsignif), ' ', du['phir','unit_user'],
+      sep='')
+    )
+  } else {
+    dpp$HoverText <- with(dpp, paste(
+      'Azimuth angle: ', signif(alpha0*180/pi, nsignif), ' deg',
+      '<br>', 'Elevation angle: ', signif(beta0*180/pi, nsignif), ' deg',
+      '<br>', 'Weight: ', signif(weight*100, nsignif), ' %',
+      '<br>', 'Root area ratio: ', signif(phir*100, nsignif), ' %',
+      sep='')
+    )
+  }
   #repeat to make discrete line segments
   dppl <- dpp[rep(seq(nrow(dpp)),each=3),]
   dppl$x <- dppl$x * rep(c(1,-1,NA), nrow(dpp))

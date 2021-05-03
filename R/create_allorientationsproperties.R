@@ -35,5 +35,5 @@ create_allorientationsproperties <- function(dr, do){
   #column names for output
   colnames_out <- colnames(da)[!colnames(da)%in%c('phir.x','phir.y')]
   #return
-  return(da[,colnames_out])
+  return(da[,c('rootID',colnames_out[colnames_out!='rootID'])])
 }

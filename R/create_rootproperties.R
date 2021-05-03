@@ -61,15 +61,15 @@ create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tr
   #tensile strain to failure and to yield
   d$epsru <- epsru0 * (d$dr/dr0)^betaeps
   d$epsry <- d$epsru * epsryepsru
-  #bilinear stiffness - Youngs modulus and elastoplastic stiffness
-  d$Ere <- with(d, ifelse(is_near(epsry, 0), tru/epsru, try/epsry))
-  d$Erep <- with(d, ifelse(is_near(epsry, epsru), tru/epsru, (tru-try)/(epsru-epsry)))
   #add weibull coefficient
   d$kappat <- kappat
   #convert all parameters to SI units if requested
   if (!is.null(du)){
     d <- data.frame(mapply(`*`, d, du[colnames(d),'unit_factor'], SIMPLIFY = FALSE))
   }
+  #bilinear stiffness - Youngs modulus and elastoplastic stiffness
+  d$Ere <- with(d, ifelse(is_near(epsry, 0), tru/epsru, try/epsry))
+  d$Erep <- with(d, ifelse(is_near(epsry, epsru), tru/epsru, (tru-try)/(epsru-epsry)))
   #root area and length
   d$Ar <- pi/4 * (d$dr)^2
   d$Cr <- pi * (d$dr)

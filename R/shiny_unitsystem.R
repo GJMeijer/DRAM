@@ -23,7 +23,7 @@
 #' shiny_unitsystem(dp, 1, 1, 1, 1, 1)
 #' @export
 
-shiny_unitsystem <- function(dp, lengthunit_radio, rootstressunit_radio, soilstressunit_radio, rootstrainunit_radio, angleunit_radio){
+shiny_unitsystem <- function(dp, lengthunit_radio, rootstressunit_radio, soilstressunit_radio, rootstrainunit_radio, rootarearatiounit_radio, angleunit_radio){
   #add user units
   dp$unit_user <- dp$unit_si
   dp$unit_factor <- 1
@@ -74,8 +74,16 @@ shiny_unitsystem <- function(dp, lengthunit_radio, rootstressunit_radio, soilstr
     dp$unit_user[dp$unit_type=='rootstrain'] <- '%'
     dp$unit_factor[dp$unit_type=='rootstrain'] <- 1e-2
   }
+  #Root area ratio
+  if (rootarearatiounit_radio == 1) {
+    dp$unit_user[dp$unit_type=='rootarearatio'] <- '-'
+    dp$unit_factor[dp$unit_type=='rootarearatio'] <- 1
+  } else if (rootarearatiounit_radio == 2) {
+    dp$unit_user[dp$unit_type=='rootarearatio'] <- '%'
+    dp$unit_factor[dp$unit_type=='rootarearatio'] <- 1e-2
+  }
   #angles
-  if (rootstrainunit_radio == 1) {
+  if (angleunit_radio == 1) {
     dp$unit_user[dp$unit_type=='angle'] <- 'deg'
     dp$unit_factor[dp$unit_type=='angle'] <- pi/180
   } else if (angleunit_radio == 2){

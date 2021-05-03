@@ -5,7 +5,7 @@ drmin,input,rootlength,m,0.001,,,
 drmax,input,rootlength,m,0.005,,,
 nc,input,integer,-,10,1,100,1
 ndimension,input,integer,-,3,,,
-norientation,input,integer,-,16,1,100,1
+norientation,input,integer,-,25,1,200,1
 beta0max,input,angle,rad,0.523598776,0,1.570796327,0.017453293
 alphaoffset,input,angle,rad,0,-3.141592654,3.141592654,0.017453293
 betaoffset,input,angle,rad,0,0,1.570796327,0.017453293
@@ -23,7 +23,7 @@ c,input,soilstress,Pa,2000,,,
 phi,input,angle,rad,0.610865238,,,
 sign,input,soilstress,Pa,5000,,,
 h0,input,soillength,m,0.002,,,
-hmax,input,soillength,m,0.05,,,
+hmax,input,soillength,m,0.03,,,
 taui,input,soilstress,Pa,10000,,,
 usmax,input,soillength,m,0.1,,,
 nstep,input,integer,-,100,,,

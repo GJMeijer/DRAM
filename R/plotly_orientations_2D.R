@@ -65,12 +65,23 @@ plotly_orientations_2D <- function(do, ndimension, beta0max, alphaoffset = 0, be
     )
   }
   #hoverlabels
-  do$HoverText <- with(do, paste(
-    'Azimuth angle: ', signif(alpha0*180/pi, nsignif), ' deg',
-    '<br>', 'Elevation angle: ', signif(beta0*180/pi, nsignif), ' deg',
-    '<br>', 'Weight: ', signif(weight*100, nsignif), ' %',
-    sep='')
-  )
+  if (!is.null(du)){
+    do$HoverText <- with(do, paste(
+      'Azimuth angle: ', signif(alpha0*180/pi, nsignif), ' deg',
+      '<br>', 'Elevation angle: ', signif(beta0*180/pi, nsignif), ' deg',
+      '<br>', 'Weight: ', signif(weight*100, nsignif), ' %',
+      '<br>', 'Root area ratio: ', signif(phir/du['phir','unit_factor'], nsignif), ' ', du['phir','unit_user'],
+      sep='')
+    )
+  } else {
+    do$HoverText <- with(do, paste(
+      'Azimuth angle: ', signif(alpha0*180/pi, nsignif), ' deg',
+      '<br>', 'Elevation angle: ', signif(beta0*180/pi, nsignif), ' deg',
+      '<br>', 'Weight: ', signif(weight*100, nsignif), ' %',
+      '<br>', 'Root area ratio: ', signif(phir*100, nsignif), ' %',
+      sep='')
+    )
+  }
   #plotly object
   p <- plotly::plot_ly()
   #draw boundary in plotly

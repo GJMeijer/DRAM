@@ -44,43 +44,67 @@ ui <- navbarPage(
     #buttons for units
     fluidRow(
       column(
-        3,
+        2,
         wellPanel(
           #diameter/length
           radioButtons(
             "lengthunit_radio",
-            'Unit for length',
+            'Unit for length, diameter and displacement',
             choices = list("mm" = 1, "cm" = 2, "m" = 3),
             selected = 1
           )
         )
       ),
       column(
-        3,
+        2,
         wellPanel(
           #root stress/strength
           radioButtons(
             "rootstressunit_radio",
-            'Unit for root stress/strength',
+            'Unit for root stress and strength',
             choices = list("Pa" = 1, "kPa" = 2, "MPa" = 3, "GPa" = 4),
             selected = 3
           )
         )
       ),
       column(
-        3,
+        2,
         wellPanel(
           #soil stress/strength
           radioButtons(
             "soilstressunit_radio",
-            'Unit for soil stress/strength',
+            'Unit for soil stress and strength',
             choices = list("Pa" = 1, "kPa" = 2, "MPa" = 3, "GPa" = 4),
             selected = 2
           )
         )
       ),
       column(
-        3,
+        2,
+        wellPanel(
+          #root strain
+          radioButtons(
+            "rootstrainunit_radio",
+            'Unit for root strain',
+            choices = list("mm/mm" = 1, "%" = 2),
+            selected = 1
+          )
+        )
+      ),
+      column(
+        2,
+        wellPanel(
+          #root area ratio
+          radioButtons(
+            "rootarearatiounit_radio",
+            'Unit for root area ratio',
+            choices = list("mm2/mm2" = 1, "%" = 2),
+            selected = 1
+          )
+        )
+      ),
+      column(
+        2,
         wellPanel(
           #root reference diameter
           uiOutput("ui_dr0")
@@ -155,7 +179,7 @@ ui <- navbarPage(
           #number of root orientation dimensions
           radioButtons(
             "ndimension",
-            'Root orientation dimensions \\(n_{dim}\\) [-]',
+            'Root orientation dimensions \\(n_{dimension}\\) [-]',
             choices = list(
               "1-D" = 1,
               "2-D" = 2,
@@ -166,7 +190,7 @@ ui <- navbarPage(
           #requested approximate number of root orientations
           sliderInput(
             "norientation",
-            paste('Requested number of discrete root orientations \\(n_{ori}\\) [-]', sep=''),
+            paste('Requested number of discrete root orientations \\(n_{orientation}\\) [-]', sep=''),
             value = dp['norientation','value_default'],
             min = dp['norientation','value_min'],
             max = dp['norientation','value_max']
@@ -300,7 +324,7 @@ ui <- navbarPage(
           #soil cohesion
           uiOutput("ui_c"),
           #soil angle of internal friction
-          uiOutput("ui_phi"),
+          uiOutput("ui_phi")
         ),
         wellPanel(
           #header
@@ -354,12 +378,12 @@ ui <- navbarPage(
     ## Input and buttons
     fluidRow(
       column(
-        4,
+        2,
         wellPanel(
           #make action button to do calculation
           actionButton(
             "buttonCalculate",
-            "Start calculations"
+            HTML("Start<br>calculations")
           )
         )
       ),
@@ -369,15 +393,27 @@ ui <- navbarPage(
           #create download button for input parameters
           downloadButton(
             "DownloadInput",
-            "Download Input"
+            HTML("Download input<br>parameters")
+          ),
+          #create download button for root properties and orientations
+          downloadButton(
+            "DownloadRootInput",
+            HTML("Download all root<br>orientations and properties")
           )
         )
       ),
       column(
-        4,
+        3,
         wellPanel(
-          #create download button for output parameters
+          #create download button for output parameters (summary)
           uiOutput("DownloadOutputButton")
+        )
+      ),
+      column(
+        3,
+        wellPanel(
+          #create download button for output parameters (per root)
+          uiOutput("DownloadOutputAllButton")
         )
       )
     ),

@@ -19,7 +19,7 @@
 #' @return plotly object
 #' @export
 
-plotly_behaviourfractions <- function(dsum, du = NULL, nsignif = 3, plot_percentage = TRUE){
+plotly_behaviourfractions <- function(dsum, du = NULL, nsignif = 3, plot_percentage = FALSE){
   #base label
   xlab <- 'Soil shear displacement'
   ylab <- 'Percentage of root area ratio'
