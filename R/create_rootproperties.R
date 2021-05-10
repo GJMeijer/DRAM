@@ -67,9 +67,9 @@ create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tr
   if (!is.null(du)){
     d <- data.frame(mapply(`*`, d, du[colnames(d),'unit_factor'], SIMPLIFY = FALSE))
   }
-  #bilinear stiffness - Youngs modulus and elastoplastic stiffness
+  #bilinear stiffness - Youngs modulus and oplastic stiffness
   d$Ere <- with(d, ifelse(is_near(epsry, 0), tru/epsru, try/epsry))
-  d$Erep <- with(d, ifelse(is_near(epsry, epsru), tru/epsru, (tru-try)/(epsru-epsry)))
+  d$Erp <- with(d, ifelse(is_near(epsry, epsru), tru/epsru, (tru-try)/(epsru-epsry)))
   #root area and length
   d$Ar <- pi/4 * (d$dr)^2
   d$Cr <- pi * (d$dr)

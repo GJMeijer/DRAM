@@ -54,7 +54,7 @@ $$ \lambda_t = \frac{t_{r,u}}{\Gamma(1 + 1/\kappa_t)} $$
 where $\Gamma$ is the Gamma-function.
 
 The following parameters are defined:
-* $d_{r,0}$ (`drref`): a reference diameter required for power-law functions;
+* $d_{r,0}$ (`dr0`): a reference diameter required for power-law functions;
 * $t_{r,u,0}$ (`tru0`): root tensile strength at diameter $d_r=d_{r,0}$;
 * $\beta_t$ (`betat`): root diameter--root tensile strength power coefficient;
 * $\epsilon_{r,u,0}$ (`epsru0`): root tensile strain to failure at diameter $d_r=d_{r,0}$;
@@ -73,7 +73,7 @@ If elastic root behaviour is required instead of elastoplastic, simply ensure th
 On this input tab, soil properties, root-soil interface properties, shear zone properties and shear displacements are defined. The soil behaves according to the Mohr-Coulomb failure criterion. 
 
 The following parameters are defined:
-* $c$ (`c`): Soil cohesion (do not include any root effects here);
+* $c'$ (`c`): Soil cohesion (do not include any root effects here);
 * $\phi'$ (`phi`): Soil angle of internal friction;
 * $\sigma'_n$ (`sign`): Soil effective normal stress acting on the shear plane (do not include any root effects);
 * $h_0$ (`h0`): Initial thickness of the shear zone, at shear displacement $u=0$;
@@ -99,49 +99,13 @@ Once finished, three plots will appear:
 In addition, four files can be downloaded:
 * Input parameters: Contains a list of all input parameters fed into the model;
 * Input root properties and orientations: Contains a list of all roots used in the model (all unique combinations of orientations and root properties).;
-* Output per step: Contains computed reinforcements (`cr`), shear zone thicknesses (`h`), fractions of root behaviour according to a certain type, all as function of direct shear displacement (`u_s`). This file can only be downloaded after the calculations have finished.
+* Output per step: Contains computed reinforcements (`cr`), shear zone thicknesses (`h`), fractions of root behaviour according to a certain type, all as function of direct shear displacement (`us`). This file can only be downloaded after the calculations have finished.
 * Output per step and root: Contains the tensile stress (`tr`, not accounting for root breakage) and the breakage parameter (`fb`) for each root at each soil displacement step. The identifiers for the soil displacement step (`soilID`) and root (`rootID`) correspond with the identifiers used in 'output per step' and 'Input root properties and orientations' files.
 
 The output files can only be downloaded after the calculations have finished.
 
 
 ### Output tab: 'Comparison to existing models'
-On this tab, root-reinforcement is calculated using existing models.
 
-#### Wu/Waldron model (WWM)
-The peak root-reinforcement $c_{ru}$, according to the Wu/Waldron model, is:
-$$ c_{ru} = k' \sum \phi_{r} t_{ru} $$
-Where $k'$ is a user defined multiplication factor that can be specified by the user, $\phi_r$ the root volume fraction (or root area ratio), $t_{ru}$ the root tensile strength and $i$ the discrete root classes defined in the user input. This model assumes that all root break simultaneously in tension, and therefore provides an upper limit to calculated root-reinforcements. This model is known to significantly overestimate peak root reinforcements.
+On this tab, root-reinforcement is calculated using existing models. For more details about these models, please see the manual.
 
-#### Fibre bundle model (FBM)
-Fibre Bundle Models (FBM) have been used to incorporate progressive root failure. In these models, the total tensile load in a bundle of roots $F = c_{ru}/k'$ (i.e. root tensile force per unit area of soil) is distributed among all intact roots. The part of the load carried by each root depends on the diameter of the root $d_r$. The tensile force in intact root $i$ ($F_i$) can be described by: 
-$$ \frac{F_i}{d_{r,i}^a} = \frac{F}{\sum_{j=1}^n {d_{r,j}^a}} $$
-where $a$ is a user-defined model constant controlling the distribution of tensile force over all roots, and $n$ the number of intact roots. Once the tensile force exceeds the strength in a single root, it breaks and the load it previously carried is distributed over remaining intact roots. Incrementally increasing the load until all roots have failed yields the maximum force the bundle can sustain, and thus the maximum root-reinforcement $c_{ru}$:
-$$ c_{ru} = k' \frac{\max F}{\sum \phi_r} $$
-Where $k'$ again is the Wu/Waldron multiplication coefficient, included to account for the influence of root orientations. Common choices of $a$ are $a=0$ (load is equally distributed over all roots, regardless of the diameter, $a=1$ (load is split proportional to root diameters and $a=2$ (resulting in equal stresses in all roots). This FBM included in this application accepts any value for $a$.
-
-A plot is generated showing the current root-reinforcement $c_r$ as function of the diameter of roots that is currently breaking. Arrows indicate the order of progressive failure in the roots.
-
-
-#### Root bundle model (RBM, RBMw)
-The 'root bundle model' (RBM), an alternative fibre bundle approach, was developed by Schwarz et al. (2010), distributing the tensile load over a bundle of roots according to the root stiffness. The model assumes a bundle of parallel roots with equal tensile strain $\epsilon_r$ in all roots. 
-
-In the original Schwarz et al. papers, linear elastic roots were assumed, but to stay in line with the Dundee Root Model, elastoplastic root behaviour was incorporate in the RBM included in this application. When the root are elastic ($\epsilon_r \leq \epsilon_{ry}$), the tensile stress $t_r$ in the root as function of tensile strain $\epsilon_r$ follows::
-$$ t_{r}(\epsilon_r) = f_{break} E_{re} \epsilon_r $$
-and when the roots behave elastoplastic ($\epsilon_{r} > \epsilon_{ry}$):
-$$ t_{r}(\epsilon_r) = f_{break} \big( t_{ry} + E_{rep} (\epsilon_r - \epsilon_{ry}) \big)$$
-Where $f_{break}$ indicates whether roots are intact ($f_{break}=1$) or broken ($f_{break}=0$). 
-
-In the case where roots suddenly break (as in the original RBM), $f_{break}=1$ when $\epsilon_r \leq \epsilon_{ru}$ and $f_{break}=0$ when $\epsilon_r > \epsilon_{ru}$.
-In a later model version by Schwarz et al. (2013) with the acronym 'RBMw', root failure was 'smoothed' using a Weibull survival function, accounting for progressive root failure within the root diameter class:
-$$ f_{break}(\epsilon_r) = \exp \Bigg( - \Bigg[ \frac{t_r(\epsilon_r)}{\lambda_t} \Bigg]^{\kappa_t} \Bigg) $$
-where $\lambda_t$ and $\kappa_t$ are the Weibull scale and shape parameter describing the probability distribution of root tensile strength $t_{ru}$ within the root diameter class . Scale parameter $\lambda_t$ is related to to the (average) root tensile strength $t_{ru}$:
-$$ \lambda_t = \frac{t_{ru}}{\Gamma(1 + 1/\kappa_t)} $$
-where $\Gamma$ is the gamma function. 
-
-At a given tensile strain $\epsilon_r$, the current root reinforcement according to the RBM/RBMw can now be expressed as:
-$$ c_r(\epsilon_r) = k' \sum \phi_{r} t_r(\epsilon_r) $$
-And therefore the peak root reinforcement $c_{ru}$ can be found by finding the maximum of $c_r(\epsilon_r)$ on the domain $\epsilon_r \geq 0$:
-$$ c_{ru} = k' \max \bigg( \sum \phi_{r} t_r(\epsilon_r) \bigg) $$
-
-A plot is generated showing the root-reinforcement $c_r$ as function of tensile strain $\epsilon_r$ for both the RBM and RBMw models.

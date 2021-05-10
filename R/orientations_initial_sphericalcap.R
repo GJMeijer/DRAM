@@ -22,7 +22,7 @@
 #'
 #' @param beta0max the maximum elevation angle describing the spherical cap
 #' @param n number of discrete orientation requested
-#' @param offset offset each row of cells by a certain fraction of the
+#' @param band_offset offset each row of cells by a certain fraction of the
 #'   azimuth width of the cell
 #' @return dataframe with the initial azimuth (`alpha0`), the initial
 #'   elevation (`beta0`) and the relative weight that should be assigned to
@@ -32,9 +32,9 @@
 #' orientations_initial_sphericalcap(pi/4, 25)
 #' @export
 
-orientations_initial_sphericalcap <- function(beta0max, n){
+orientations_initial_sphericalcap <- function(beta0max, n, band_offset = 0.5){
   #discretise spherical cap into number of cells
-  do <- orientations_initial_sphericalcap_discretise(beta0max, n)
+  do <- orientations_initial_sphericalcap_discretise(beta0max, n, band_offset = band_offset)
   #elevation angle - average in terms of area
   do$beta0 <- with(do, (sin(beta0_1)-sin(beta0_0)+beta0_0*cos(beta0_0)-beta0_1*cos(beta0_1))/(cos(beta0_0)-cos(beta0_1)))
   #first band, if only one cell --> beta = 0

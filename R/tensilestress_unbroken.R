@@ -11,9 +11,9 @@
 #' @param Cr root circumference (array)
 #' @param Ar root cross-sectional area (array)
 #' @param Lr root length (array)
-#' @paray try root yield strength (array)
+#' @param try root yield strength (array)
 #' @param Ere root elastic stiffness (array)
-#' @param Erep root elasto-plastic stiffness (array)
+#' @param Erp root elasto-plastic stiffness (array)
 #' @param taui root-soil interface shear stress (scalar)
 #' @param h thickness of the shear plane (scalar)
 #' @param cosbeta cosine of the elevation angle of the current orientation
@@ -28,9 +28,9 @@
 #' tensilestress_unbroken(pi, pi/4, 200, 2, 100, 80, 0.002, 30, 0.8, 0.9)
 #' @export
 
-tensilestress_unbroken <- function(Cr, Ar, Lr, try, Ere, Erep, taui, h, cosbeta, cosbeta0){
+tensilestress_unbroken <- function(Cr, Ar, Lr, try, Ere, Erp, taui, h, cosbeta, cosbeta0){
   #maximum vector length (in case not all vectors
-  n <- max(c(length(Cr), length(Ar), length(Lr), length(Ere), length(Erep), length(cosbeta), length(cosbeta0)))
+  n <- max(c(length(Cr), length(Ar), length(Lr), length(Ere), length(Erp), length(cosbeta), length(cosbeta0)))
   #tensile stress - initiate vector and fill with zeros (only for roots in tension)
   tr_unbroken <- numeric(n)
   #solution flag - initiate vector and fill with zeros (only for roots in tension)
@@ -47,7 +47,7 @@ tensilestress_unbroken <- function(Cr, Ar, Lr, try, Ere, Erep, taui, h, cosbeta,
     s2 <- (tra >= try[s1])
     #calculate tensile stress - bi-linear elastic
     if (any(s2)) {
-      tra[s2]    <- tensilestress_anchored_elastoplastic(Cr[s1][s2],Ar[s1][s2], try[s1][s2],Ere[s1][s2],Erep[s1][s2], taui, h,cosbeta[s1][s2],cosbeta0[s1][s2])
+      tra[s2]    <- tensilestress_anchored_elastoplastic(Cr[s1][s2],Ar[s1][s2], try[s1][s2],Ere[s1][s2],Erp[s1][s2], taui, h,cosbeta[s1][s2],cosbeta0[s1][s2])
       flag_a[s2] <- 2
     }
 
@@ -59,7 +59,7 @@ tensilestress_unbroken <- function(Cr, Ar, Lr, try, Ere, Erep, taui, h, cosbeta,
     s2 <- (trs >= try[s1])
     #calculate tensile stress - bi-linear elastic
     if (any(s2)) {
-      trs[s2]    <- tensilestress_slip_elastoplastic(Cr[s1][s2],Ar[s1][s2],Lr[s1][s2], try[s1][s2],Ere[s1][s2],Erep[s1][s2], taui, h,cosbeta[s1][s2])
+      trs[s2]    <- tensilestress_slip_elastoplastic(Cr[s1][s2],Ar[s1][s2],Lr[s1][s2], try[s1][s2],Ere[s1][s2],Erp[s1][s2], taui, h,cosbeta[s1][s2])
       flag_s[s2] <- 4
     }
 

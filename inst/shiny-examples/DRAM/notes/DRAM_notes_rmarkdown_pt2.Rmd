@@ -7,7 +7,10 @@ This web application uses a simplified set of root and soil input parameters to 
 The user can select below what definitions to use for:
 
 * all length scales (e.g. root diameter, root length, shear displacement, shear zone thickness)
-* all stresses/strengths (e.g. root tensile strength, soil strength and stress, root-reinforcements). 
+* all root stresses, strenghts and stiffnesses (e.g. root tensile stress and strength), 
+* all soil stresses, strengths and stiffnesses (e.g. soil stress, root reinforcement, peak root reinforcement)
+* root strains (e.g. root tensile strain)
+* root area ratio 
 * the root reference diameter $d_{r,0}$, which is required for the various power-law relationships between root diameter and (for example) root tensile strength used in the model.
 
-All angles are expressed in degrees. Please not that when the unit system is  *changed*, all input parameters of that type are reset to their default values! 
+All angles are expressed in degrees. Please note that when the unit system is  *changed*, all input parameters of that type are reset to their default values! 

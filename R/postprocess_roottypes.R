@@ -1,3 +1,44 @@
+#' Postprocess DRAM results to get fractions of behaviour type
+#'
+#' @description
+#' Function that analyses the DRAM results and determines for each displacement
+#' step what fraction of the root area ratio corresponds with the various types
+#' of root behaviour (not in tension, anchored elastic, slipping elastoplastic
+#' etc.). The results are added to the `dsum` dataframe that is inputted.
+#'
+#' @param dsum dataframe with DRAM output per step. Should contain fields the
+#'   displacement step identifier `stepID`.
+#' @param dall dataframe with DRAM outpput per step and root. Should contain
+#'   fields for the displacement step identifier (`stepID`), root identifier
+#'   (`rootID`), breakage parameter (`fb`) and the flag indicating the
+#'   type of root behaviour (`flag`)
+#' @param da dataframe with root properties and orientation. Should contain
+#'   fields for the root identfier (`rootID`) and the root area ratio per
+#'   root (`phir`)
+#' @return dataframe `dsum` with added fields for the fraction of the root
+#'   area ratio belonging to broken roots (`fraction_broken`),
+#'   roots not in tension (`fraction_notintension`),
+#'   anchored elastic roots (`fraction_anchoredelastic`),
+#'   anchored elastoplastic roots (`fraction_anchoredelastoplastic`),
+#'   slipping elastic roots (`fraction_slipelastic`) and
+#'   slipping elastoplastic roots (`fraction_slipelastoplastic`)
+#' @examples
+#' dsum <- data.frame(
+#'   stepID = c(1, 2)
+#' )
+#' dall <- data.frame(
+#'   stepID = c(1, 1, 2, 2),
+#'   rootID = c(1, 2, 1, 2),
+#'   fb = c(1, 1, 0.9, 0.8),
+#'   flag = c(0, 0, 1, 3)
+#' )
+#' da <- data.frame(
+#'   rootID = c(1, 2),
+#'   phir = c(0.01, 0.02)
+#' )
+#' postprocess_roottypes(dsum, dall, da)
+#' @export
+
 postprocess_roottypes <- function(dsum, dall, da){
   #fraction of roots
   da$frac <- da$phir / sum(da$phir)

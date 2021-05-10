@@ -1,0 +1,94 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Chang et~al.(2019)Chang, Cheng, Allaire, Xie, and McPherson]{shiny}
+Winston Chang, Joe Cheng, JJ~Allaire, Yihui Xie, and Jonathan McPherson.
+\newblock \emph{shiny: Web Application Framework for R}, 2019.
+\newblock URL \url{https://CRAN.R-project.org/package=shiny}.
+\newblock R package version 1.3.2.
+
+\bibitem[Comino et~al.(2010)Comino, Marengo, and Rolli]{comino2010}
+E.~Comino, P.~Marengo, and V.~Rolli.
+\newblock Root reinforcement effect of different grass species: A comparison
+  between experimental and models results.
+\newblock \emph{Soil \& Tillage Research}, 110\penalty0 (1):\penalty0 60--68,
+  2010.
+
+\bibitem[Mao et~al.(2012)Mao, Saint-Andre, Genet, Mine, Jourdan, Rey, Courbaud,
+  and Stokes]{mao2012}
+Zhun Mao, Laurent Saint-Andre, Marie Genet, Francois-Xavier Mine, Christophe
+  Jourdan, Herve Rey, Benoit Courbaud, and Alexia Stokes.
+\newblock Engineering ecological protection against landslides in diverse
+  mountain forests: Choosing cohesion models.
+\newblock \emph{Ecological Engineering}, 45:\penalty0 55--69, 2012.
+
+\bibitem[Meijer et~al.(2019)Meijer, Bull, Knappett, Bengough, {Muir Wood}, and
+  Liang]{meijer2019drm}
+G.~J. Meijer, D.~J. Bull, J.~A. Knappett, A.~G. Bengough, D.~{Muir Wood}, and
+  T.~Liang.
+\newblock A three-dimensional analytical model for the mobilisation of
+  root-reinforcement in direct shear conditions.
+\newblock \emph{?}, ?\penalty0 (?):\penalty0 ?--?, 2019.
+
+\bibitem[Oda and Iwashita(1999)]{oda1999}
+M.~Oda and K.~Iwashita.
+\newblock \emph{Mechanics of Granular Materials: An Introduction}.
+\newblock Balkema, Rotterdam, 1999.
+
+\bibitem[Pollen and Simon(2005)]{pollen2005}
+N.~Pollen and A.~Simon.
+\newblock Estimating the mechanical effects of riparian vegetation on stream
+  bank stability using a fiber bundle model.
+\newblock \emph{Water Resources Research}, 41\penalty0 (7):\penalty0 W07025,
+  2005.
+
+\bibitem[{R Core Team}(2013)]{R}
+{R Core Team}.
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2013.
+\newblock URL \url{http://www.R-project.org/}.
+
+\bibitem[Schwarz et~al.(2010)Schwarz, Lehmann, and Or]{schwarz2010}
+M.~Schwarz, P.~Lehmann, and D.~Or.
+\newblock Quantifying lateral root reinforcement in steep slopes -- from a
+  bundle of roots to tree stands.
+\newblock \emph{Earth Surface Processes and Landforms}, 35\penalty0
+  (3):\penalty0 354--367, 2010.
+
+\bibitem[Schwarz et~al.(2013)Schwarz, Giadrossich, and Cohen]{schwarz2013}
+M.~Schwarz, F.~Giadrossich, and D.~Cohen.
+\newblock Modeling root reinforcement using a root-failure {Weibull} survival
+  function.
+\newblock \emph{Hydrology and Earth System Sciences}, 17:\penalty0 4367--4377,
+  2013.
+
+\bibitem[Sievert(2018)]{plotly}
+Carson Sievert.
+\newblock \emph{plotly for R}, 2018.
+\newblock URL \url{https://plotly-r.com}.
+
+\bibitem[Thomas and Pollen-Bankhead(2010)]{thomas2010}
+Robert~E. Thomas and Natasha Pollen-Bankhead.
+\newblock Modeling root-reinforcement with a fiber-bundle model and {Monte
+  Carlo} simulation.
+\newblock \emph{Ecological Engineering}, 36\penalty0 (1):\penalty0 47--61,
+  2010.
+
+\bibitem[Waldron(1977)]{waldron1977}
+L.~J. Waldron.
+\newblock Shear resistance of root-permeated homogeneous and stratified soil.
+\newblock \emph{Soil Science Society of America Journal}, 41\penalty0
+  (5):\penalty0 843--849, 1977.
+
+\bibitem[Wu et~al.(1979)Wu, {McKinnell III}, and Swanston]{wu1979}
+T.~H. Wu, W.~P. {McKinnell III}, and D.~N. Swanston.
+\newblock Strength of tree roots and landslides on {Prince of Wales Island},
+  {Alaska}.
+\newblock \emph{Canadian Geotechnical Journal}, 16\penalty0 (1):\penalty0
+  19--33, 1979.
+
+\end{thebibliography}

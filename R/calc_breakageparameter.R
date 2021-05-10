@@ -2,16 +2,16 @@
 #'
 #' @description
 #' Calculate the breakage parameter `fb`, i.e. the fraction of roots still
-#' unbroken given the current conditions in the root. This fraction is 
-#' calculated using the current tensile stress in the root. 
+#' unbroken given the current conditions in the root. This fraction is
+#' calculated using the current tensile stress in the root.
 #' Weibull failure can be incorporated if a `kappa` parameter, a Weibull
-#' shape parameter, is specified in the input. A current value of 
+#' shape parameter, is specified in the input. A current value of
 #' breakage parameter (`fb0`) that cannot be exceeded (to ensure roots
 #' cannot 'unbreak' again) may be specified.
-#' 
+#'
 #' @param tr current tensile stress in root (assuming unbroken) (array, size m)
 #' @param tru root tensile strength (array, size m)
-#' @param kappa Weibull shape parameter (array or scalar)
+#' @param kappat Weibull shape parameter (array or scalar)
 #' @param fb0 Current value of breakage parameter that may not be exceeded
 #'   (array or scalar)
 #' @return array with new values of breakage parameter `fb`

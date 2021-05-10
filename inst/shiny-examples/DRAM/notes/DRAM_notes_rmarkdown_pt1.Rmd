@@ -1,5 +1,6 @@
 ## Introduction
-Dundee Root Analysis Model (DRAM) - v0.6 - 18/10/2019
+
+Dundee Root Analysis Model (DRAM) - v0.1.0 - 10/05/2021
 
 This web application was developed by Dr Gerrit Meijer (University of Bath, formerly University of Dundee, [gjm36@bath.ac.uk](mailto://gjm36@bath.ac.uk). It provides a user-friendly version of the Dundee Root Analysis Model ('DRAM') for calculating root-reinforcements, described in the following journal paper:
 

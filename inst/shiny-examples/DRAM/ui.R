@@ -6,12 +6,14 @@
 ui <- navbarPage(
   ## DETAILS
   title="Dundee Root Analysis Model",     #Application name, appears in top left corner
-
+  position = "fixed-top",
+  collapsible = TRUE,
   #theme=shinytheme("cerulean"),  #CSS theme used for formatting of the application. Theme loaded from the 'shinythemes' package
 
   ## INSTRUCTIONS
   tabPanel(
     "Notes",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     #first part of rmarkdown
     includeMarkdown("notes/DRAM_notes_rmarkdown_pt1.Rmd"),
     #download buttons for files
@@ -33,8 +35,8 @@ ui <- navbarPage(
           actionButton(
             inputId = 'ab2',
             label = "Manual for web application",
-            icon = icon("file-pdf"),
-            onclick = "window.open('20191016_DundeeRootModel_ShinyManual.pdf', '_blank')"
+            icon = icon("file-code"),
+            onclick = "window.open('DRAM_manual_markdown.html', '_blank')"
           )
         )
       )
@@ -118,6 +120,7 @@ ui <- navbarPage(
   ## ROOT VOLUME FRACTION AND DIAMETER
   tabPanel(
     "Root diameters",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     #load mathjax for typesetting equations (has to be done only once)
     withMathJax(),
     #create input
@@ -170,6 +173,7 @@ ui <- navbarPage(
   ## ROOT ORIENTATIONS
   tabPanel(
     "Root orientations",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     fluidRow(
       column(
         6,
@@ -226,6 +230,7 @@ ui <- navbarPage(
   ## ROOT PROPERTIES
   tabPanel(
     "Root properties",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     fluidRow(
       column(
         6,
@@ -272,15 +277,15 @@ ui <- navbarPage(
             "betaL",
             paste('Root length power law - power \\(\\beta_L\\) [-]', sep=''),
             value = dp['betaL','value_default']
-          ),
-          wellPanel(
-            #header
-            h3("Root yield strength and strain"),
-            #yield/ultimate strength ratio
-            uiOutput("ui_trytru"),
-            #yield/ultimate strain ratio
-            uiOutput("ui_epsryepsru")
           )
+        ),
+        wellPanel(
+          #header
+          h3("Root yield strength and strain"),
+          #yield/ultimate strength ratio
+          uiOutput("ui_trytru"),
+          #yield/ultimate strain ratio
+          uiOutput("ui_epsryepsru")
         )
       )
     ),
@@ -315,6 +320,7 @@ ui <- navbarPage(
   ## SOIL PROPERTIES
   tabPanel(
     "Soil properties",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     fluidRow(
       column(
         6,
@@ -375,6 +381,7 @@ ui <- navbarPage(
   ## CALCULATE
   tabPanel(
     "Calculate",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
     ## Input and buttons
     fluidRow(
       column(
@@ -434,6 +441,60 @@ ui <- navbarPage(
     fluidRow(
       #plot root behaviour fractions as function of shear displacement
       plotly::plotlyOutput("p_behaviourfractions")
+    )
+  ),
+
+  ## OTHER MODELS
+  tabPanel(
+    "Comparison to existing models",
+    tags$style(type="text/css", "body {padding-top: 70px;}"),
+    fluidRow(
+      column(
+        6,
+        wellPanel(
+          #header
+          h3("Commonly used models"),
+          #Wu/Waldron factor - input
+          numericInput(
+            "k",
+            "Root orientation factor \\(k'\\) [-]",
+            value = 1.2
+          ),
+          #Fibre bundle load sharing factor - input
+          numericInput(
+            "kappa",
+            "Weibull survival function shape parameter \\(\\kappa\\) [-] (RBMw, FBMw, FBMcw)",
+            value = 4
+          ),
+        )
+      ),
+      column(
+        6,
+        wellPanel(
+          #header
+          h3("Generic fibre bundle models (FBMc/FBMcw)"),
+          #Load sharing paramete in FBMcw
+          numericInput(
+            "betaF",
+            "Generic load sharing parameter \\(\\beta_F\\) [-] (FBMc, FBMcw)",
+            value = 1
+          )
+        )
+      )
+    ),
+    br(),
+    fluidRow(
+      column(
+        6,
+        #plotly with peak reinforcements for existing models
+        plotly::plotlyOutput("p_existingmodelsbarplot1")
+      ),
+      column(
+        6,
+        #plot FBM results - reinforcement as function of breaking root diameter, + WWM
+        plotly::plotlyOutput("p_existingmodelsbarplot2")
+        #tableOutput('table')
+      )
     )
   )
 )

@@ -1,0 +1,20 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Input}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Unit system}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Coordinate system}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Input tab: `Root diameter'}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Root diameter classes}{subsection.2.3}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Root volume fractions}{subsection.2.3}% 7
+\BOOKMARK [2][-]{subsection.2.4}{Input tab: 'Root orientations'}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.4.1}{1-dimensional root orientations}{subsection.2.4}% 9
+\BOOKMARK [3][-]{subsubsection.2.4.2}{2-dimensional root orientations}{subsection.2.4}% 10
+\BOOKMARK [3][-]{subsubsection.2.4.3}{3-dimensional root orientations}{subsection.2.4}% 11
+\BOOKMARK [2][-]{subsection.2.5}{Input tab: `Root properties'}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.6}{Input tab: `Soil properties'}{section.2}% 13
+\BOOKMARK [1][-]{section.3}{Output}{}% 14
+\BOOKMARK [2][-]{subsection.3.1}{Output tab: 'Calculate'}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.2}{Output tab: `Comparison to existing models'}{section.3}% 16
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Wu/Waldron model \(WWM\)}{subsection.3.2}% 17
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Fibre bundle model \(FBM\)}{subsection.3.2}% 18
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Root Bundle Models \(FBM/FBMw\)}{subsection.3.2}% 19
+\BOOKMARK [1][-]{equation.3.32}{Bibliography}{}% 20

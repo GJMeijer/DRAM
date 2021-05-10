@@ -3,14 +3,19 @@
 #' @description
 #' Defines a unit system and conversions for Shiny parameters
 #'
+#' @param dp dataframe with parameters
 #' @param lengthunit_radio Shiny input from radio button selection for
-#'   length unit
+#'   length unit. The rownames of the dataframe correspond with the
+#'   parameter names in the DRAM. Dataframe should contain fields for
+#'   the SI unit used (`unit_si`) and the parameter type (`unit_type`)
 #' @param rootstressunit_radio Shiny input from radio button selection
 #'   for root stress/strength/stiffness unit
 #' @param soilstressunit_radio Shiny input from radio button selection
 #'   for soil stress/strength/stiffness unit
 #' @param rootstrainunit_radio Shiny input from radio button selection
 #'   for root strain unit
+#' @param rootarearatiounit_radio Shiny input from radio button selection
+#'   for root area ratio unit
 #' @param angleunit_radio Shiny input from radio button selection
 #'   for angles (degrees or radians)
 #' @return returns a dataframe with multiplication factor to get from
@@ -18,14 +23,18 @@
 #'   the SI unit (`unit_SI`). The rownames of the dataframe refer to the
 #'   parameter of interest
 #' @examples
-#' dp <- read.csv('inst/shiny-examples/DRAM/parameter_list.csv', stringsAsFactors = FALSE)
+#' dp <- data.frame(
+#'   parameter = c('tru0', 'Lr0', 'kappat'),
+#'   unit_type = c('rootstress', 'rootlength', 'dimensionless'),
+#'   unit_si = c('Pa', 'm', '-')
+#' )
 #' row.names(dp) <- dp$parameter
-#' shiny_unitsystem(dp, 1, 1, 1, 1, 1)
+#' shiny_unitsystem(dp, 1, 3, 1, 1, 1, 1)
 #' @export
 
 shiny_unitsystem <- function(dp, lengthunit_radio, rootstressunit_radio, soilstressunit_radio, rootstrainunit_radio, rootarearatiounit_radio, angleunit_radio){
   #add user units
-  dp$unit_user <- dp$unit_si
+  dp$unit_user <- as.character(dp$unit_si)
   dp$unit_factor <- 1
   #length scale
   if (lengthunit_radio == 1) {

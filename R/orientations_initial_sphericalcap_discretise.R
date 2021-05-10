@@ -15,7 +15,7 @@
 #'
 #' @param beta0max the maximum elevation angle describing the spherical cap
 #' @param n number of discrete orientation requested
-#' @param offset offset each row of cells by a certain fraction of the
+#' @param band_offset offset each row of cells by a certain fraction of the
 #'   azimuth width of the cell
 #' @return dataframe with an entry for each cell. For each, the band it belongs
 #'   to (`band`), the cell number on the band (`cell`), the total number of cells

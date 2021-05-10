@@ -36,7 +36,7 @@ server <- function(input, output) {
   output$ui_beta0max <- renderUI({
     sliderInput(
       "beta0max",
-      withMathJax(paste('Maximum root elevation angle \\(\\beta_{0,max}\\) [', du()['beta0max','unit_user'], ']', sep='')),
+      withMathJax(paste("Maximum root elevation angle \\(\\beta'_{0,max}\\) [", du()['beta0max','unit_user'], ']', sep='')),
       value = round(du()['beta0max','value_default']/du()['beta0max','unit_factor'],4),
       min = round(du()['beta0max','value_min']/du()['beta0max','unit_factor'],4),
       max = round(du()['beta0max','value_max']/du()['beta0max','unit_factor'],4),
@@ -338,7 +338,6 @@ server <- function(input, output) {
   dsum <- reactive({
     postprocess_roottypes(dout()$sum, dout()$all, da())
   })
-  #output$table <- renderTable(dsum())
 
   ## Create output plots - DRM
   #root-reinforcement
@@ -429,6 +428,44 @@ server <- function(input, output) {
       )
     }
   )
+
+  ##Make predictions for existing models
+  #literature models
+  dcru_literature <- reactive({
+    shiny_existingmodels_literature(dr()$dr, dr()$phir, dr()$tru, input$tru0, input$betat, input$betaeps, input$betaL, input$kappa, k = input$k, dr0 = input$dr0, du = du())
+  })
+  #generic FBM/FBMw
+  dcru_fbmw <- reactive({
+    shiny_existingmodels_fbmw(dr()$dr, dr()$phir, dr()$tru, input$tru0, input$betaF, input$kappa, k = input$k, dr0 = input$dr0, du = du())
+  })
+  #generic FBMc/FBMcw
+  dcru_fbmcw <- reactive({
+    shiny_existingmodels_fbmcw(input$drmin, input$drmax, input$betaF, input$phirt, input$betaphi, input$tru0, input$betat, input$kappa, k = input$k, dr0 = input$dr0, du = du())
+  })
+  #make dataframe for existing - including DRAM
+  dcru1 <- reactive({
+    rbind(
+      dcru_literature(),
+      data.frame(model = 'DRAM', cru = max(dout()$sum$cr))
+    )
+  })
+  #make dataframe for fbmcw - including DRAM
+  dcru2 <- reactive({
+    rbind(
+      dcru_fbmw(),
+      dcru_fbmcw(),
+      data.frame(model = 'DRAM', cru = max(dout()$sum$cr))
+    )
+  })
+  #cru_DRAM = max(dout()$sum$cr)
+  #make plots
+  output$p_existingmodelsbarplot1 <- plotly::renderPlotly({
+    plotly_existingmodelsbarchart(dcru1(), du = du(), ylim = c(0,dcru1()$cru[dcru1()$model=='WWM']))
+  })
+  output$p_existingmodelsbarplot2 <- plotly::renderPlotly({
+    plotly_existingmodelsbarchart(dcru2(), du = du(), ylim = c(0,dcru1()$cru[dcru1()$model=='WWM']))
+  })
+  #output$table <- renderTable(dcru1())
 
   ##Update input widgets also when they are hidden (Shiny only assigns/changes a value when the input is visible)
   ##otherwise, plotting some graphs without manually visiting all input tabs first will throw an error.

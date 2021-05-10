@@ -3,68 +3,66 @@
 #' @description
 #' Function that takes all root properties/orientations and calculates
 #' root reinforcements at every displacement step
-#' @param da dataframe with root properties / orientations
-#' @param ds dataframe with soil properties
+#' @param da dataframe with root properties and orientations. This should
+#'   contain fields for:
+#'   the total root area ratio (`phir`),
+#'   initial orientation azimuth (`alpha0`) [in radians],
+#'   initial orientation elevation (`beta0`) [in radians],
+#'   root circumference (`Cr`),
+#'   root cross-sectional area (`Ar`),
+#'   root length (`Lr`),
+#'   root yield strength (`try`),
+#'   root tensile strength (`tru`),
+#'   root elastic stiffness (`Ere`),
+#'   root elasto-plastic stiffness (`Erp`),
+#'   Weibull breakage parameter (`kappa`)
+#' @param ds dataframe with soil properties. This should contain
+#'   fields for:
+#'   soil cohesion (`c`),
+#'   soil angle of internal friction (`phi`) [rad],
+#'   normal effective soil stress on shear plane (`sign`),
+#'   root-soil interface friction (`taui`),
+#'   initial shear zone thickness (`h0`),
+#'   maximum shear zone thickness (`hmax`),
+#'   maximum shear displacement (`usmax`),
+#'   number of steps  (`nstep`)
 #' @param updateProgress shiny object to update calculation progress in
 #'   shiny UI
-#' @return a
+#' @return List with two dataframes:
+#'   a) `sum`, which contains summary data for each step.
+#'   This contains fields:
+#'   step identifier (`stepID`),
+#'   shear displacement (`u`),
+#'   shear zone thickness (`h`),
+#'   root reinforcement (`cr`);
+#'   b) `all`, which contains summary data for each step and root.
+#'   This contains fields for:
+#'   step identifier (`stepID`),
+#'   root identified (`rootID`),
+#'   root tensile strain assuming no root breakage (`tr`),
+#'   breakage parameter/current fraction of roots intact (`fb`),
+#'   root reinforcement per root (`cr`),
+#'   a flag indicating the type of root behaviour (`flag`):
+#'   `flag=0` = root not in tension,
+#'   `flag=1` = anchored elastic behaviour,
+#'   `flag=2` = anchored elastoplastic behaviour
+#'   `flag=3` = slipping elastic behaviour,root not in tension,
+#'   `flag=4` = slipping elastoplastic behaviour.
+#'
 #' @examples
-#' da <- data.frame(rootID=1, phir=0.01, alpha0=0, beta0=0, Cr=pi, Ar=pi/4, Lr=100, try=10e6, tru=20e6, Ere=100e6, Erep=50e6, kappat=5)
-#' ds <- data.frame(c=1e3, phi=0.5, sign=10e3, taui=1e3, h0=1, hmax=50, usmax=50, nstep=100)
+#' da <- data.frame(
+#'   rootID = 1, phir = 0.01, alpha0 = 0, beta0 = 0, Cr=pi, Ar = pi/4,
+#'   Lr = 100, try = 10e6, tru = 20e6, Ere = 100e6, Erp = 50e6,
+#'   kappat = 5
+#' )
+#' ds <- data.frame(
+#'   c = 1e3, phi = 0.5, sign = 10e3, taui = 1e3,
+#'   h0 = 1, hmax = 50, usmax = 50, nstep = 100
+#' )
 #' dram_runanalysis(da, ds)
 #' @export
 
 dram_runanalysis <- function(da, ds, updateProgress = NULL) {
-  # FUNCTION to run an analysis using the various input parameters specified
-  # INPUT
-  # - <dr> dataframe with all root parameters/orientations
-  #        vector fields required (i.e. dataframe may have multiple rows for multiple roots)
-  #        - RootID: Unique root identifier
-  #        - phir:   root volume fraction
-  #        - alpha0: initial orientation - azimuth angle
-  #        - beta0:  initial orientation - elevation angle
-  #        - Cr:     root circumference length
-  #        - Ar:     root cross-sectional area
-  #        - Lr:     root length
-  #        - try:    root yield strength
-  #        - tru:    root tensile strength
-  #        - Ere:    root elastic stiffness
-  #        - Erep:   root elasto-plastic stiffness
-  #        - kappat: root bundle breakage parameter
-  # - <di> dataframe with all input parameters
-  #        scalar fields required (i.e. dataframe with single row)
-  #        - c:    soil cohesion
-  #        - phi:  soil angle of internal friction
-  #        - sign: normal effective soil stress on shear plane
-  #        - taui: root-soil interface friction
-  #        - h0:   initial shear zone thickness
-  #        - hmax: maximum shear zone thickness
-  #        - umax:  maximum shear displacement
-  #        - nstep: number of steps
-  # OUTPIT
-  # - analysis outputs a list containing two dataframes
-  #   - <sum>: summary of calculated results, contains fields
-  #            - StepID:    number of displacement step
-  #            - u:         current shear displacement
-  #            - h:         current shear zone thickness
-  #            - cr:        current root-reinforcement
-  #            - WWMfactor: current equivalent WWM factor to achieve <cr> result
-  #   - <all>: data per root, per displacement step. contains fields:
-  #            - RootID:    root identified, corresponds with ID in dataframe <dr>
-  #            - StepID:    number of displacement step, to link data to <sum>
-  #            - tri:       current tensile stress in intact root
-  #            - tr:        current tensile stress in root (after applying breakage parameter)
-  #            - cr:        current root-reinforcement for this root
-  #            - WWMfactor: current equivalent WWM factor to achieve <cr> result, for this root
-  #            - flag:      integer explaining current behaviour type:
-  #                         - 0: root not in tension or completely within shear zone
-  #                         - 1: anchored, elastic
-  #                         - 2: anchored, elastoplastic
-  #                         - 3: slipping, elastic
-  #                         - 4: slipping, elastoplastic
-
-  ## generate all combinations of root properties and orientations
-
   #Create data frame for summary output
   dos <- data.frame(
     stepID = seq(0,ds$nstep),
@@ -79,7 +77,8 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
     tr = 0,
     fb = 1,
     cr = 0,
-    flag = 0
+    flag = 0,
+    KEEP.OUT.ATTRS = FALSE
   )
   #initial root breakage parameter
   da$fb <- 1
@@ -94,7 +93,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
         da$Cr, da$Ar, da$Lr, da$phir,
         da$alpha0, da$beta0,
         da$try, da$tru,
-        da$Ere, da$Erep,
+        da$Ere, da$Erp,
         kappat = da$kappat,
         fb0 = da$fb
       )
@@ -107,7 +106,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
           da$Cr, da$Ar, da$Lr, da$phir,
           da$alpha0, da$beta0,
           da$try, da$tru,
-          da$Ere, da$Erep,
+          da$Ere, da$Erp,
           kappat = da$kappat,
           fb0 = da$fb
         )
@@ -125,7 +124,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
             Cr = da$Cr, Ar = da$Ar, Lr = da$Lr, phir = da$phir,
             alpha0 = da$alpha0, beta0 = da$beta0,
             try = da$try, tru = da$tru,
-            Ere = da$Ere, Erep = da$Erep,
+            Ere = da$Ere, Erp = da$Erp,
             kappat = da$kappat,
             fb0 = da$fb
           )
@@ -146,7 +145,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
     #calculate tensile stresses at current <us> and <h>
     dtr <- tensilestress_unbroken(
       da$Cr, da$Ar, da$Lr,
-      da$try, da$Ere, da$Erep, ds$taui,
+      da$try, da$Ere, da$Erp, ds$taui,
       dos$h[j], da$cosbeta, cos(da$beta0)
     )
     #update breakage parameter

@@ -6,7 +6,8 @@
 #' @param input structure with all Shiny interactive input
 #' @param norientation_used actual number of discrete root orientations used
 #' @param du dataframe with unit conventions
-#' @return dataframe with all properties
+#' @return dataframe with all DRAM input properties in unit system defined
+#'   by user
 #' @export
 
 datasave_inputparameters <- function(input, norientation_used = NULL, du = NULL){
