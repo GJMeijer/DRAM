@@ -12,7 +12,7 @@
 <meta name="author" content="G. J. Meijer, University of Bath, Department of Architecture and Civil Engineering, Bath BA2 7AY, gjm36@bath.ac.uk" />
 
 
-<title>Dundee Root Analysis Model (DRAM) - Manual</title>
+<title>Dundee Root Analytical Model (DRAM) - Manual</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1508,7 +1508,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Dundee Root Analysis Model (DRAM) - Manual</h1>
+<h1 class="title toc-ignore">Dundee Root Analytical Model (DRAM) - Manual</h1>
 <h4 class="author">G. J. Meijer, University of Bath, Department of Architecture and Civil Engineering, Bath BA2 7AY, <a href="mailto:gjm36@bath.ac.uk" class="email">gjm36@bath.ac.uk</a></h4>
 <h4 class="date">May 2021</h4>
 
@@ -1517,7 +1517,7 @@ div.tocify {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>This web application was developed by Dr Gerrit Meijer. It provides a user-friendly version of the root-reinforcement model (‘Dundee Root Analysis Model’, acronym ‘DRAM’) described in full detail by <span class="citation">Meijer et al. (2021)</span>.</p>
+<p>This web application was developed by Dr Gerrit Meijer. It provides a user-friendly version of the root-reinforcement model (‘Dundee Root Analytical Model’, acronym ‘DRAM’) described in full detail by <span class="citation">Meijer et al. (2021)</span>.</p>
 <p>This root-reinforcement model accounts for the mobilisation of roots in direct shear conditions, accounting for:</p>
 <ul>
 <li>Elastoplastic root behaviour</li>
@@ -1700,22 +1700,22 @@ div.tocify {
 <p>The (elastic) Young’s modulus <span class="math inline">\(E_{r,e}\)</span> equals: <span class="math display">\[\begin{equation}
     E_{r,e} = \frac{t_{r,y}}{\epsilon_{r,y}}
     \label{eq:ere}
-\end{equation}\]</span> and the elastoplastic stiffness <span class="math inline">\(E_{r,ep}\)</span>: <span class="math display">\[\begin{equation}
-    E_{r,ep} = \frac{t_{r,u} - t_{r,y}}{\epsilon_{r,u} - \epsilon_{r,y}}
-    \label{eq:erep}
+\end{equation}\]</span> and the elastoplastic stiffness <span class="math inline">\(E_{r,p}\)</span>: <span class="math display">\[\begin{equation}
+    E_{r,p} = \frac{t_{r,u} - t_{r,y}}{\epsilon_{r,u} - \epsilon_{r,y}}
+    \label{eq:erp}
 \end{equation}\]</span> The yield tensile stress <span class="math inline">\(t_{r,y}\)</span> and yield strain <span class="math inline">\(\epsilon_{r,y}\)</span> are inputted in the model as fractions of tensile strength <span class="math inline">\(t_{r,u}\)</span> and tensile strain to failure <span class="math inline">\(\epsilon_{r,u}\)</span> respectively, using (dimensionless) parameters <span class="math inline">\(t_{r,y}/t_{r,u}\)</span> and <span class="math inline">\(\epsilon_{r,y}/\epsilon_{r,u}\)</span>.</p>
 <p>The evolution of root tensile stress as function of tensile strain, ignoring any root breakage effects, can be described as: <span class="math display">\[\begin{equation}
     t_{r} = 
     \begin{cases}
         E_{r,e} \epsilon_r &amp; \text{when } \epsilon_r \leq \epsilon_{r,y} \\
-        t_{r,y} + E_{r,ep} \left(\epsilon_r - \epsilon_{r,y} \right) &amp; \text{when } \epsilon_r &gt; \epsilon_{r,y}
+        t_{r,y} + E_{r,p} \left(\epsilon_r - \epsilon_{r,y} \right) &amp; \text{when } \epsilon_r &gt; \epsilon_{r,y}
     \end{cases}
     \label{eq:tri}
 \end{equation}\]</span></p>
-<p>From these equations, it follows that the elastic and elastoplastic root stiffnesses <span class="math inline">\(E_{r,e}\)</span> and <span class="math inline">\(E_{r,ep}\)</span> can be rewritten in terms of root diameter <span class="math inline">\(d_r\)</span> using a power law relationship: <span class="math display">\[\begin{equation}
+<p>From these equations, it follows that the elastic and elastoplastic root stiffnesses <span class="math inline">\(E_{r,e}\)</span> and <span class="math inline">\(E_{r,p}\)</span> can be rewritten in terms of root diameter <span class="math inline">\(d_r\)</span> using a power law relationship: <span class="math display">\[\begin{equation}
     E_{r,e} = \frac{\left(t_{r,y}/t_{r,u}\right)}{\left(\epsilon_{r,y}/\epsilon_{r,u}\right)} \frac{t_{r,u,0}}{\epsilon_{r,u,0}} \left(\frac{d_r}{d_{r,0}}\right)^{\beta_t - \beta_\epsilon}
 \end{equation}\]</span> <span class="math display">\[\begin{equation}
-    E_{r,ep} = \frac{\left(1 - t_{r,y}/t_{r,u}\right)}{\left(1 - \epsilon_{r,y}/\epsilon_{r,u}\right)} \frac{t_{r,u,0}}{\epsilon_{r,u,0}} \left(\frac{d_r}{d_{r,0}}\right)^{\beta_t - \beta_\epsilon}
+    E_{r,p} = \frac{\left(1 - t_{r,y}/t_{r,u}\right)}{\left(1 - \epsilon_{r,y}/\epsilon_{r,u}\right)} \frac{t_{r,u,0}}{\epsilon_{r,u,0}} \left(\frac{d_r}{d_{r,0}}\right)^{\beta_t - \beta_\epsilon}
 \end{equation}\]</span></p>
 <p>It is known that the biomechanical properties of roots can vary widely, not only between roots with different diameters, but also for roots with the  diameter. To include the latter variability in the model, a root breakage parameter <span class="math inline">\(f_{b}\)</span> was included, such that <span class="math inline">\(f_{b}=1\)</span> when all root is intact, and <span class="math inline">\(f_{b}=0\)</span> when all root is broken.</p>
 <p>The Weibull breakage function is used to define the breakage parameter <span class="math inline">\(f_{b}\)</span>, similar to : <span class="math display">\[\begin{equation}
@@ -1804,7 +1804,7 @@ div.tocify {
 <li><code>epsry</code>: root tensile strain to yield</li>
 <li><code>kappat</code>: Weibull shape parameter for survival function</li>
 <li><code>Ere</code>: root elastic tensile stiffness</li>
-<li><code>Erep</code> root elastoplastic tensile stiffness</li>
+<li><code>Erp</code> root elastoplastic tensile stiffness</li>
 <li><code>alpha0</code>: azimuth angle of initial root orientation</li>
 <li><code>beta0</code>: elevation angle of initial root orientation</li>
 <li><code>phir</code>: root area ratio assigned to root class</li>

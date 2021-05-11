@@ -299,7 +299,7 @@ server <- function(input, output) {
   ## GENERATE ROOT PROPERTY PLOTS
   #root diameter
   output$p_diameters <- plotly::renderPlotly({
-    plotly_diameterclasses(dr(), du = du())
+    plotly_diameterclasses(dd(), du = du())
   })
   #root tensile strength
   output$p_tensilestrength <- plotly::renderPlotly({

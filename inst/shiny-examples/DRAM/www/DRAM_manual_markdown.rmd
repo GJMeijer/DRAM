@@ -1,5 +1,5 @@
 ---
-title: "Dundee Root Analysis Model (DRAM) - Manual"
+title: "Dundee Root Analytical Model (DRAM) - Manual"
 author: "G. J. Meijer, University of Bath, Department of Architecture and Civil Engineering, Bath BA2 7AY, <gjm36@bath.ac.uk>"
 date: "May 2021"
 bibliography: 20210510_References_Paper_DRAM_manual.bib
@@ -13,7 +13,7 @@ output:
 
 # Introduction
 
-This web application was developed by Dr Gerrit Meijer. It provides a user-friendly version of the root-reinforcement model ('Dundee Root Analysis Model', acronym 'DRAM') described in full detail by @meijer2021dram. 
+This web application was developed by Dr Gerrit Meijer. It provides a user-friendly version of the root-reinforcement model ('Dundee Root Analytical Model', acronym 'DRAM') described in full detail by @meijer2021dram. 
 
 This root-reinforcement model accounts for the mobilisation of roots in direct shear conditions, accounting for:
 

@@ -22,7 +22,7 @@
 plotly_behaviourfractions <- function(dsum, du = NULL, nsignif = 3, plot_percentage = FALSE){
   #base label
   xlab <- 'Soil shear displacement'
-  ylab <- 'Percentage of root area ratio'
+  ylab <- 'Fraction of root area ratio'
   #use unit system - and create plot labels
   if (!is.null(du)) {
     #convert units
