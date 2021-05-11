@@ -4,14 +4,14 @@
 \alias{orientations_initial_sphericalcap}
 \title{Create initial root orientations on a 3D-spherical cap}
 \usage{
-orientations_initial_sphericalcap(beta0max, n)
+orientations_initial_sphericalcap(beta0max, n, band_offset = 0.5)
 }
 \arguments{
 \item{beta0max}{the maximum elevation angle describing the spherical cap}
 
 \item{n}{number of discrete orientation requested}
 
-\item{offset}{offset each row of cells by a certain fraction of the
+\item{band_offset}{offset each row of cells by a certain fraction of the
 azimuth width of the cell}
 }
 \value{

@@ -25,7 +25,7 @@ strength of roots as function of their diameters
 \examples{
 dr <- data.frame(
   dr = c(1.5, 2.5, 3.5),
-  tru = c(1, 2, 3),
+  tru = c(1, 2, 3)
 )
 plotly_tensilestrength(dr)
 }

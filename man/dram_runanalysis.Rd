@@ -37,12 +37,14 @@ shiny UI}
 }
 \value{
 List with two dataframes:
+
   a) `sum`, which contains summary data for each step.
   This contains fields:
   step identifier (`stepID`),
   shear displacement (`u`),
   shear zone thickness (`h`),
   root reinforcement (`cr`);
+
   b) `all`, which contains summary data for each step and root.
   This contains fields for:
   step identifier (`stepID`),
@@ -62,7 +64,14 @@ Function that takes all root properties/orientations and calculates
 root reinforcements at every displacement step
 }
 \examples{
-da <- data.frame(rootID=1, phir=0.01, alpha0=0, beta0=0, Cr=pi, Ar=pi/4, Lr=100, try=10e6, tru=20e6, Ere=100e6, Erp=50e6, kappat=5)
-ds <- data.frame(c=1e3, phi=0.5, sign=10e3, taui=1e3, h0=1, hmax=50, usmax=50, nstep=100)
+da <- data.frame(
+  rootID = 1, phir = 0.01, alpha0 = 0, beta0 = 0, Cr=pi, Ar = pi/4,
+  Lr = 100, try = 10e6, tru = 20e6, Ere = 100e6, Erp = 50e6,
+  kappat = 5
+)
+ds <- data.frame(
+  c = 1e3, phi = 0.5, sign = 10e3, taui = 1e3,
+  h0 = 1, hmax = 50, usmax = 50, nstep = 100
+)
 dram_runanalysis(da, ds)
 }

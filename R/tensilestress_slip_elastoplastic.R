@@ -10,7 +10,7 @@
 #' @param Cr root circumference (array)
 #' @param Ar root cross-sectional area (array)
 #' @param Lr root length (array)
-#' @paray try root yield strength (array)
+#' @param try root yield strength (array)
 #' @param Ere root elastic stiffness (array)
 #' @param Erp root plastic stiffness (array)
 #' @param taui root-soil interface shear stress (array)

@@ -13,7 +13,7 @@
 #' @examples
 #' dr <- data.frame(
 #'   dr = c(1.5, 2.5, 3.5),
-#'   epsru = c(0.1, 0.12, 0.11),
+#'   epsru = c(0.1, 0.12, 0.11)
 #' )
 #' plotly_tensilestrain(dr)
 #' @export

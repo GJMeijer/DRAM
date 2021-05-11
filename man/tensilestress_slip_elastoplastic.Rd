@@ -13,6 +13,8 @@ tensilestress_slip_elastoplastic(Cr, Ar, Lr, try, Ere, Erp, taui, h, cosbeta)
 
 \item{Lr}{root length (array)}
 
+\item{try}{root yield strength (array)}
+
 \item{Ere}{root elastic stiffness (array)}
 
 \item{Erp}{root plastic stiffness (array)}

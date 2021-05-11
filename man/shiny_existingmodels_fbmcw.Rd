@@ -14,8 +14,8 @@ shiny_existingmodels_fbmcw(
   betat,
   kappa,
   du = NULL,
-  k = k,
-  dr0 = dr0
+  k = 1.2,
+  dr0 = 1
 )
 }
 \arguments{

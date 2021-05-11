@@ -13,6 +13,8 @@ tensilestress_unbroken(Cr, Ar, Lr, try, Ere, Erp, taui, h, cosbeta, cosbeta0)
 
 \item{Lr}{root length (array)}
 
+\item{try}{root yield strength (array)}
+
 \item{Ere}{root elastic stiffness (array)}
 
 \item{Erp}{root elasto-plastic stiffness (array)}

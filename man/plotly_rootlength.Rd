@@ -25,7 +25,7 @@ in roots as function of their diameter
 \examples{
 dr <- data.frame(
   dr = c(1.5, 2.5, 3.5),
-  Lr = c(100, 200, 300),
+  Lr = c(100, 200, 300)
 )
 plotly_rootlength(dr)
 }

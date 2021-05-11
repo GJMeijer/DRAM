@@ -15,8 +15,12 @@ shiny_unitsystem(
 )
 }
 \arguments{
+\item{dp}{dataframe with parameters}
+
 \item{lengthunit_radio}{Shiny input from radio button selection for
-length unit}
+length unit. The rownames of the dataframe correspond with the
+parameter names in the DRAM. Dataframe should contain fields for
+the SI unit used (`unit_si`) and the parameter type (`unit_type`)}
 
 \item{rootstressunit_radio}{Shiny input from radio button selection
 for root stress/strength/stiffness unit}

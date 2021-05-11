@@ -2,14 +2,10 @@
 % Please edit documentation in R/create_rootproperties.R
 \name{create_rootproperties}
 \alias{create_rootproperties}
-\title{Create all root properties}
+\title{Add root properties to a dataframe}
 \usage{
 create_rootproperties(
-  drmin,
-  drmax,
-  nc,
-  phirt,
-  betaphi,
+  d,
   Lr0,
   betaL,
   tru0,
@@ -24,15 +20,9 @@ create_rootproperties(
 )
 }
 \arguments{
-\item{drmin}{minimum root diamete (scalar)}
-
-\item{drmax}{maximum root diameter (scalar)}
-
-\item{nc}{number of root classes to use (integer scalar)}
-
-\item{phirt}{total root area ratio}
-
-\item{betaphi}{root area ratio power law coefficient (scalar)}
+\item{d}{dataframe with root classes. Should contain field (`dr`) for
+the representative root diameter in the class. This diameter is already
+converted to a SI unit system}
 
 \item{Lr0}{root length of root with reference diameter (scalar)}
 
@@ -62,8 +52,10 @@ peak (scalar)}
 dataframe with root diameter classes and root properties
 }
 \description{
-Function that creates dataframe with root properties based on input.
+Function that adds various root properties to a dataframe containing
+root diameter classes
 }
 \examples{
-create_rootproperties(2,5, 10, 0.01,-0.2, 1,0.5, 10e6,-0.5,0.5, 0.2,0,0.1, 5)
+d <- data.frame(dr = c(0.001, 0.002, 0.003, 0.004))
+create_rootproperties(d, 1, 0.5, 10e6, -0.5, 0.5, 0.2, 0, 0.1, 5)
 }

@@ -1,15 +1,17 @@
 Package: DRAM
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Dundee Root Analytical Model (DRAM)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: G. J. Meijer
+Maintainer: G. J. Meijer <gjm36@bath.ac.uk>
+Description: Package containing functions and a Shiny web application
+    for the Dundee Root Analytical Model (DRAM) for calculations of
+	(mobilisation of) mechanical root reinforcement under direct
+	shear loading conditions.
 Imports:
     plotly,
 	shiny
-License: What license is it under?
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

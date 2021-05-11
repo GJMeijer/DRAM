@@ -49,7 +49,7 @@ plotly_stressstrain <- function(dr, du = NULL, nsignif = 4){
   eps1 <- seq(0, dr$epsry[1], l = n)
   eps2 <- seq(dr$epsry[1], (epsrepsru_max*dr$epsru[1]), l = n)
   tr1  <- eps1 * dr$Ere[1]
-  tr2  <- tail(tr1,1) + (eps2-dr$epsry[1])*dr$Erep[1]
+  tr2  <- utils::tail(tr1,1) + (eps2-dr$epsry[1])*dr$Erep[1]
   d2   <- data.frame(
     epsrepsru = c(eps1, eps2)/dr$epsru[1],
     trtru = c(tr1, tr2)/dr$tru[1]

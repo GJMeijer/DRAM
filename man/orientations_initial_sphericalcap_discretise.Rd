@@ -11,7 +11,7 @@ orientations_initial_sphericalcap_discretise(beta0max, n, band_offset = 0.5)
 
 \item{n}{number of discrete orientation requested}
 
-\item{offset}{offset each row of cells by a certain fraction of the
+\item{band_offset}{offset each row of cells by a certain fraction of the
 azimuth width of the cell}
 }
 \value{

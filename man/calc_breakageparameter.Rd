@@ -11,20 +11,20 @@ calc_breakageparameter(tr, tru, kappat = NULL, fb0 = NULL)
 
 \item{tru}{root tensile strength (array, size m)}
 
+\item{kappat}{Weibull shape parameter (array or scalar)}
+
 \item{fb0}{Current value of breakage parameter that may not be exceeded
 (array or scalar)}
-
-\item{kappa}{Weibull shape parameter (array or scalar)}
 }
 \value{
 array with new values of breakage parameter `fb`
 }
 \description{
 Calculate the breakage parameter `fb`, i.e. the fraction of roots still
-unbroken given the current conditions in the root. This fraction is 
-calculated using the current tensile stress in the root. 
+unbroken given the current conditions in the root. This fraction is
+calculated using the current tensile stress in the root.
 Weibull failure can be incorporated if a `kappa` parameter, a Weibull
-shape parameter, is specified in the input. A current value of 
+shape parameter, is specified in the input. A current value of
 breakage parameter (`fb0`) that cannot be exceeded (to ensure roots
 cannot 'unbreak' again) may be specified.
 }

@@ -200,15 +200,26 @@ server <- function(input, output) {
     )
   })
 
-  ## GENERATE ROOT PROPERTIES
-  dr <- reactive({
+  ## GENERATE ROOT DIAMETER CLASSES
+  dd <- reactive({
     #validate input
     validate(
       need(input$phirt>=0, "Root volume fractions need to be larger than zero"),
       need(input$drmin>0, "Minimum root diameter needs to be larger than 0"),
       need(input$drmax>=input$drmin, "Maximum root diameter needs to be larger than minimum root diameter"),
+      need(input$nc>0, "At least one root diameter class is required")
+    )
+    #create root diameter classes
+    discretise_rootdiameters(
+      input$drmin, input$drmax, input$nc, input$phirt, input$betaphi,
+      du = du()
+    )
+  })
+  ## ADD ROOT PROPERTIES
+  dr <- reactive({
+    #validate input
+    validate(
       need(input$dr0>0, "Reference root diameter needs to be larger than 0"),
-      need(input$nc>0, "At least one root diameter class is required"),
       need(input$Lr0>0, "Root length at reference diameter needs to be positive"),
       need(input$tru0>0, "Root tensile strength at reference diameter needs to be positive"),
       need(input$epsru0>0, "Root tensile strain to peak at reference diameter needs to be positive"),
@@ -216,7 +227,7 @@ server <- function(input, output) {
     )
     #create root properties
     create_rootproperties(
-      input$drmin, input$drmax, input$nc, input$phirt, input$betaphi,
+      dd(),
       input$Lr0, input$betaL, input$tru0, input$betat, input$trytru,
       input$epsru0, input$betaeps, input$epsryepsru, input$kappat,
       dr0 = input$dr0, du = du()

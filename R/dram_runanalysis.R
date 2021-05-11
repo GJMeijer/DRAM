@@ -29,12 +29,14 @@
 #' @param updateProgress shiny object to update calculation progress in
 #'   shiny UI
 #' @return List with two dataframes:
+#'
 #'   a) `sum`, which contains summary data for each step.
 #'   This contains fields:
 #'   step identifier (`stepID`),
 #'   shear displacement (`u`),
 #'   shear zone thickness (`h`),
 #'   root reinforcement (`cr`);
+#'
 #'   b) `all`, which contains summary data for each step and root.
 #'   This contains fields for:
 #'   step identifier (`stepID`),
@@ -115,7 +117,7 @@ dram_runanalysis <- function(da, ds, updateProgress = NULL) {
           dos$h[j] <- ds$hmax
         } else {
           #solve to find shear zone thickness at which stable
-          sol <- uniroot(
+          sol <- stats::uniroot(
             shearzone_stabilitycriterion,
             lower = dos$h[j-1],
             upper = ds$hmax,

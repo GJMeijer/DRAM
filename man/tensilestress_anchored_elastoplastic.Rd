@@ -21,6 +21,8 @@ tensilestress_anchored_elastoplastic(
 
 \item{Ar}{root cross-sectional area (array)}
 
+\item{try}{root yield strength (array)}
+
 \item{Ere}{root elastic stiffness (array)}
 
 \item{Erp}{root plastic stiffness (array)}

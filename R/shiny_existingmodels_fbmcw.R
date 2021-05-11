@@ -24,7 +24,7 @@
 #' shiny_existingmodels_fbmcw(1, 5, 1.5, 0.01, -1, 10e6, -0.5, 2.5)
 #' @export
 
-shiny_existingmodels_fbmcw <- function(drmin, drmax, betaF, phirt, betaphi, tru0, betat, kappa, du = NULL, k = k, dr0 = dr0){
+shiny_existingmodels_fbmcw <- function(drmin, drmax, betaF, phirt, betaphi, tru0, betat, kappa, du = NULL, k = 1.2, dr0 = 1){
   #account for unit system - for input straight from Shiny UI
   if (!is.null(du)){
     drmin <- drmin * du['drmin','unit_factor']

@@ -1,13 +1,12 @@
-#' Create all root properties
+#' Add root properties to a dataframe
 #'
 #' @description
-#' Function that creates dataframe with root properties based on input.
+#' Function that adds various root properties to a dataframe containing
+#' root diameter classes
 #'
-#' @param drmin minimum root diamete (scalar)
-#' @param drmax maximum root diameter (scalar)
-#' @param nc number of root classes to use (integer scalar)
-#' @param phirt total root area ratio
-#' @param betaphi root area ratio power law coefficient (scalar)
+#' @param d dataframe with root classes. Should contain field (`dr`) for
+#'   the representative root diameter in the class. This diameter is already
+#'   converted to a SI unit system
 #' @param Lr0 root length of root with reference diameter (scalar)
 #' @param betaL power law coefficient for root length (scalar)
 #' @param tru0 root tensile strength of root with reference diameter (scalar)
@@ -23,35 +22,17 @@
 #' @param du dataframe with unit conversions
 #' @return dataframe with root diameter classes and root properties
 #' @examples
-#' create_rootproperties(2,5, 10, 0.01,-0.2, 1,0.5, 10e6,-0.5,0.5, 0.2,0,0.1, 5)
+#' d <- data.frame(dr = c(0.001, 0.002, 0.003, 0.004))
+#' create_rootproperties(d, 1, 0.5, 10e6, -0.5, 0.5, 0.2, 0, 0.1, 5)
 #' @export
 
-create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tru0,betat,trytru, epsru0,betaeps,epsryepsru, kappat, dr0 = 1, du = NULL){
-  #split into root classes and assign fraction of root area ratio per diameter
-  if (is_near(drmin, drmax)){
-    d <- data.frame(
-      dr = drmin,
-      drmin = drmin,
-      drmax = drmax,
-      phir = phirt
-    )
-  } else {
-    if (drmin > drmax){
-      temp <- drmin
-      drmin <- drmax
-      drmax <- temp
-    }
-    d <- data.frame(
-      drmin = (drmin + (drmax-drmin) * seq(0, 1-1/nc, l = nc)),
-      drmax = (drmin + (drmax-drmin) * seq(1/nc, 1, l = nc))
-    )
-    d$dr <- 0.5*(d$drmin + d$drmax)
-    if (is_near(1+betaphi, 0)) {
-      d$phir <- phirt * log(d$drmax/d$drmin) / log(drmax/drmin)
-    } else {
-      d$phir <- phirt * (d$drmax^(1+betaphi)-d$drmin^(1+betaphi)) /
-        (drmax^(1+betaphi)-drmin^(1+betaphi))
-    }
+create_rootproperties <- function(d,  Lr0,betaL, tru0,betat,trytru, epsru0,betaeps,epsryepsru, kappat, dr0 = 1, du = NULL){
+  #convert dimensioned units if required
+  if (!is.null(du)){
+    Lr0 <- Lr0 * du['Lr0','unit_factor']
+    tru0 <- tru0 * du['tru0','unit_factor']
+    epsru0 <- epsru0 * du['epsru0','unit_factor']
+    dr0 <- dr0 * du['dr0','unit_factor']
   }
   #root length
   d$Lr <- Lr0 * (d$dr/dr0)^betaL
@@ -63,10 +44,6 @@ create_rootproperties <- function(drmin, drmax, nc, phirt,betaphi, Lr0,betaL, tr
   d$epsry <- d$epsru * epsryepsru
   #add weibull coefficient
   d$kappat <- kappat
-  #convert all parameters to SI units if requested
-  if (!is.null(du)){
-    d <- data.frame(mapply(`*`, d, du[colnames(d),'unit_factor'], SIMPLIFY = FALSE))
-  }
   #bilinear stiffness - Youngs modulus and oplastic stiffness
   d$Ere <- with(d, ifelse(is_near(epsry, 0), tru/epsru, try/epsry))
   d$Erp <- with(d, ifelse(is_near(epsry, epsru), tru/epsru, (tru-try)/(epsru-epsry)))

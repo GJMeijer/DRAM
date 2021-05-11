@@ -29,7 +29,8 @@
 #' do <- data.frame(
 #'   alpha0 = c(0, 1, 2),
 #'   beta0 = c(0.5, 0.5, 0.7),
-#'   weight = c(0.01, 0.01, 0.01)
+#'   weight = c(0.3, 0.4, 0.3),
+#'   phir = c(0.01, 0.01, 0.01)
 #' )
 #' plotly_orientations_3D(do, 3, 1)
 #' plotly_orientations_3D(do, 3, 1, alphaoffset = 0.2, betaoffset = 0.3)
