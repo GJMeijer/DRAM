@@ -1,5 +1,5 @@
 parameter,class,unit_type,unit_si,value_default,value_min,value_max,value_step
-phirt,input,rootarearatio,-,0.1,,,
+phirt,input,rootarearatio,-,0.005,,,
 betaphi,input,dimensionless,-,0.2,,,
 drmin,input,rootlength,m,0.001,,,
 drmax,input,rootlength,m,0.005,,,

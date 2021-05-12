@@ -25,7 +25,7 @@ ui <- navbarPage(
             inputId = 'ab1',
             label = "Link to journal publication",
             icon = icon("link"),
-            onclick = "window.open('https://discovery.dundee.ac.uk/en/persons/gerrit-meijer', '_blank')"
+            onclick = "window.open('https://researchportal.bath.ac.uk/en/persons/gerrit-meijer', '_blank')"
           )
         )
       ),
@@ -34,7 +34,7 @@ ui <- navbarPage(
         wellPanel(
           actionButton(
             inputId = 'ab2',
-            label = "Manual for web application",
+            label = "App manual",
             icon = icon("file-code"),
             onclick = "window.open('DRAM_manual_markdown.html', '_blank')"
           )
