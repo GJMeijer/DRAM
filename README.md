@@ -1,6 +1,6 @@
 # DRAM
 
-Dundee Root Analytical Model (DRAM) plant roots
+Dundee Root Analytical Model (DRAM) - Mobilisation of root reinforcements in direct shear loading conditions
 
 April 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
 
@@ -27,13 +27,13 @@ This app shows an interactive version of the DRAM. Full documentation can be fou
 
 ## Using calculations functions
 
-A wrapper function (`dram_runanalysis_wrapper`) is provided that takes all input parameters required for a DRAM calculation and outputs various dataframes with results. You can use this function in R to do all DRAM calculations that are performed within R using the R console rather than the app. For more information, type 
-`?dram_runanalysis_wrapper`) into your R console window.
+A wrapper function (`dram_runanalysis_wrapper()`) is provided that takes all input parameters required for a DRAM calculation and outputs various dataframes with results. You can use this function in R to do all DRAM calculations that are performed within R using the R console rather than the app. For more information, type 
+`?dram_runanalysis_wrapper` into your R console window.
 
 When using this function, make sure that you use a consistent set of units (e.g. when using lenghts in meters and forces in kilonewstons, the correct unit for stress and stiffness is kPa, or when using lenghts in mm and forces in newtons, the correct unit for stress and stiffness is MPa, etc.). All angles should be specified in radians rather than degrees. All output is returned in the same unit system.
 
 
-## Documentation
+## Detailed function documentation
 
 For each of the functions in the package, a help page can be opened by typing `?function_name` in the R console, where `function_name` is the name of the function you want to see the documentation of.
 

@@ -19,7 +19,7 @@
 #'   try = 5e6,
 #'   tru = 10e6,
 #'   Ere = 5e6 / 0.05,
-#'   Erep = (10e6 - 5e6) / (0.20 - 0.05),
+#'   Erp = (10e6 - 5e6) / (0.20 - 0.05),
 #'   kappat = 10
 #' )
 #' plotly_stressstrain(dr)
@@ -43,14 +43,14 @@ plotly_stressstrain <- function(dr, du = NULL, nsignif = 4){
     sep=''
   )
   #create weibull data
-  n    <- 101
-  kap  <- dr$kappat[1]
-  lam  <- 1 / gamma(1 + 1/kap)
+  n <- 101
+  kap <- dr$kappat[1]
+  lam <- 1 / gamma(1 + 1/kap)
   eps1 <- seq(0, dr$epsry[1], l = n)
   eps2 <- seq(dr$epsry[1], (epsrepsru_max*dr$epsru[1]), l = n)
-  tr1  <- eps1 * dr$Ere[1]
-  tr2  <- utils::tail(tr1,1) + (eps2-dr$epsry[1])*dr$Erep[1]
-  d2   <- data.frame(
+  tr1 <- eps1 * dr$Ere[1]
+  tr2 <- utils::tail(tr1,1) + (eps2-dr$epsry[1])*dr$Erp[1]
+  d2 <- data.frame(
     epsrepsru = c(eps1, eps2)/dr$epsru[1],
     trtru = c(tr1, tr2)/dr$tru[1]
   )
