@@ -1,6 +1,6 @@
 # DRAM
 
-Dundee Root Analytical Model (DRAM) - Mobilisation of root reinforcements in direct shear loading conditions
+Dundee Root Analytical Model (DRAM) - A three-dimensional analytical model for the mobilisation of root reinforcement in direct shear conditions
 
 April 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
 
@@ -9,6 +9,8 @@ This R package contains:
 - an interactive app (using R Shiny), interactively showing how root reinforcement are affected by root properties, soil propeties and root orientations in three dimensions. 
 The reinforcements can the compared to the predictions by existing reinforcement models.
 - all functions required to make calculations in the above
+
+The app can also be run online through Shinyapps.io: <https://gjmeijer.shinyapps.io/DRAM/>
 
 
 ## Installation
