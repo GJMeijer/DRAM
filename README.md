@@ -4,25 +4,30 @@ Dundee Root Analytical Model (DRAM) - A three-dimensional analytical model for t
 
 April 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
 
+
+## Running the app online
+
+An online app, showcasing the capabilities of the DRAM, is currently hosted through Shinyapps.io: <https://gjmeijer.shinyapps.io/DRAM/>
+
+
+## Package and installation
+
 This R package contains:
 
 - an interactive app (using R Shiny), interactively showing how root reinforcement are affected by root properties, soil propeties and root orientations in three dimensions. 
 The reinforcements can the compared to the predictions by existing reinforcement models.
-- all functions required to make calculations in the above
+- all functions required to make calculations
 
-The app can also be run online through Shinyapps.io: <https://gjmeijer.shinyapps.io/DRAM/>
-
-
-## Installation
+To install this package on your local machine:
 
 1. Open R. (If not installed, I recommend installing RStudio (free software) that can be downloaded from https://www.rstudio.com/products/rstudio/download/)
 2. If not already installed, install the `devtools` package by typing `install.packages("devtools")` in the R console. This package allows you to interact with R packages hosted on GitHub (among many other things)
 3. Install the `DRAM` package by typing `devtools::install_github("GJMeijer/DRAM")` in the R console
 
 
-## Running the app
+## Running the app offline
 
-To run the included app, type `DRAM::run_app()` in the R console. This will open an interactive App in your default browser. This app relies on R continuing to run in the background for any computations.
+To run the included app on your local machine, type `DRAM::run_app()` in the R console after installation of the package. This will open the app in your default browser. This app relies on R continuing to run in the background for any computations.
 
 This app shows an interactive version of the DRAM. Full documentation can be found within the app itself. The app is constructed using the R package `shiny`.
 
