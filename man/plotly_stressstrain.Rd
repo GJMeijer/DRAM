@@ -31,7 +31,7 @@ dr <- data.frame(
   try = 5e6,
   tru = 10e6,
   Ere = 5e6 / 0.05,
-  Erep = (10e6 - 5e6) / (0.20 - 0.05),
+  Erp = (10e6 - 5e6) / (0.20 - 0.05),
   kappat = 10
 )
 plotly_stressstrain(dr)
