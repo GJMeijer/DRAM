@@ -2,7 +2,7 @@
 
 Dundee Root Analytical Model (DRAM) - A three-dimensional analytical model for the mobilisation of root reinforcement in direct shear conditions
 
-April 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
+v0.1.0 - May 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
 
 
 ## Running the app online
@@ -34,7 +34,7 @@ This app shows an interactive version of the DRAM. Full documentation can be fou
 
 ## Using calculations functions
 
-A wrapper function (`dram_runanalysis_wrapper()`) is provided that takes all input parameters required for a DRAM calculation and outputs various dataframes with results. You can use this function in R to do all DRAM calculations that are performed within R using the R console rather than the app. For more information, type 
+A wrapper function `dram_runanalysis_wrapper()` is provided that takes all input parameters required for a DRAM calculation and outputs various dataframes with results. You can use this function in R to do all DRAM calculations that are performed within R using the R console rather than the app. For more information, type 
 `?dram_runanalysis_wrapper` into your R console window.
 
 When using this function, make sure that you use a consistent set of units (e.g. when using lenghts in meters and forces in kilonewstons, the correct unit for stress and stiffness is kPa, or when using lenghts in mm and forces in newtons, the correct unit for stress and stiffness is MPa, etc.). All angles should be specified in radians rather than degrees. All output is returned in the same unit system.
@@ -43,5 +43,16 @@ When using this function, make sure that you use a consistent set of units (e.g.
 ## Detailed function documentation
 
 For each of the functions in the package, a help page can be opened by typing `?function_name` in the R console, where `function_name` is the name of the function you want to see the documentation of.
+
+
+## Copyright and Licence
+
+Copyright (C) 2021 University of Bath
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 

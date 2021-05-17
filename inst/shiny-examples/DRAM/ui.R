@@ -5,7 +5,7 @@
 #create tab structure
 ui <- navbarPage(
   ## DETAILS
-  title="Dundee Root Analytical Model",     #Application name, appears in top left corner
+  title = "Dundee Root Analytical Model",     #Application name, appears in top left corner
   position = "fixed-top",
   collapsible = TRUE,
   #theme=shinytheme("cerulean"),  #CSS theme used for formatting of the application. Theme loaded from the 'shinythemes' package
