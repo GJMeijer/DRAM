@@ -4,8 +4,8 @@ Dundee Root Analytical Model (DRAM) - v0.1.0 - 10/05/2021
 
 This web application was developed by Dr Gerrit Meijer (University of Bath, formerly University of Dundee, [gjm36@bath.ac.uk](mailto://gjm36@bath.ac.uk). It provides a user-friendly version of the Dundee Root Analysis Model ('DRAM') for calculating root-reinforcements, described in the following journal paper:
 
-> G.J. Meijer, A.G. Bengough, J.A. Knappett, D. Muir Wood, T. Liang and D.J. Bull (2019). A three-dimensional analytical model for the mobilisation of
-root-reinforcement in direct shear conditions. Journal Volume(Issue):Pages
+> G.J. Meijer, A.G. Bengough, J.A. Knappett, D.J. Bull, T. Liang and D. Muir Wood (2021). A three-dimensional analytical model for the mobilisation of
+root-reinforcement in direct shear conditions. Ecological Engineering x(x):x-x
 
 This root-reinforcement model accounts for the mobilisation of roots in direct shear conditions, accounting for:
 * Elastoplastic root behaviour;

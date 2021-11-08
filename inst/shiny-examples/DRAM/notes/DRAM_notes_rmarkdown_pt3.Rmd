@@ -48,10 +48,10 @@ and the elastoplastic stiffness $E_{r,ep}$:
 $$ E_{r,ep} = \frac{t_{r,u} - t_{r,y}}{\epsilon_{r,u} - \epsilon_{r,y}} $$
 
 Gradual breakage of roots within a diameter class was included using a Weibull function. The parameter $f_{b}$ ($f_{b}=1$ when all root is intact, and $f_{b}=0$ when all root is broken) equals:
-$$ f_{b} = -\exp \Bigg[-\Bigg( \frac{t_r}{\lambda_t} \Bigg)^{\kappa_t} \Bigg] $$
+$$ f_{b} = \exp \Bigg[-\Bigg( \frac{t_r}{\lambda_t} \Bigg)^{\kappa_t} \Bigg] $$
 where $t_r$ is the tensile stress in the root, $\kappa_t$ the Weibull shape parameter and $\lambda_t$ the Weibull scale parameter, which is related to the average root strength $t_{r,u}$:
-$$ \lambda_t = \frac{t_{r,u}}{\Gamma(1 + 1/\kappa_t)} $$
-where $\Gamma$ is the Gamma-function.
+$$ \lambda_t = \frac{t_{r,u}}{\Gamma \left(1 + \frac{1}{\kappa_t}\right)} $$
+where $\Gamma()$ is the Gamma-function.
 
 The following parameters are defined:
 * $d_{r,0}$ (`dr0`): a reference diameter required for power-law functions;

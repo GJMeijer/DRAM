@@ -4,19 +4,19 @@ Title: Dundee Root Analytical Model (DRAM)
 Version: 0.1.0
 Authors@R:
     c(person(given = "Gerrit",
-	         family = "Meijer",
-			 role = c("aut", "cre"),
-			 email = "gjm36@bath.ac.uk",
-			 comment = c(ORCID = "0000-0002-2815-5480")),
-	  person(given = "University of Bath",
-			 role = c("cph")))
+             family = "Meijer",
+             role = c("aut", "cre"),
+             email = "gjm36@bath.ac.uk",
+             comment = c(ORCID = "0000-0002-2815-5480")),
+      person(given = "University of Bath",
+             role = c("cph")))
 Description: Package containing functions and a Shiny web application
     for the Dundee Root Analytical Model (DRAM) for calculations of
-	(mobilisation of) mechanical root reinforcement under direct
-	shear loading conditions.
+    (mobilisation of) mechanical root reinforcement under direct
+    shear loading conditions.
 Imports:
     plotly,
-	shiny
+    shiny
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
