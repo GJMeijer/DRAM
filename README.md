@@ -2,7 +2,7 @@
 
 Dundee Root Analytical Model (DRAM) - A three-dimensional analytical model for the mobilisation of root reinforcement in direct shear conditions
 
-v0.1.0 - May 2021 - Gerrit Meijer (<gjm36@bath.ac.uk>)
+v0.1.0 - March 2022 - Gerrit Meijer (<gjm36@bath.ac.uk>)
 
 
 ## Running the app online
